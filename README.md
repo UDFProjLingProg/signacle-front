@@ -31,9 +31,9 @@ As seguintes ferramentas foram usadas na construção do projeto:
 ![VSCode](https://img.shields.io/badge/Visual_Studio-0078d7?style=for-the-badge&logo=visual%20studio&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![EsLint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Nuxt](https://img.shields.io/badge/nuxt.js-00DC82?style=for-the-badge&logo=nuxt.js&logoColor=white)
 
-### ● [VueJs3](https://vuejs.org/) ● [NODE.JS](https://nodejs.org/pt-br) ● [NPM](https://www.npmjs.com/) ● [VITE](https://vitejs.dev/) ●  [PRIMEREACT](https://primereact.org/) ●  [PRIMEFLEX](https://primeflex.org/) ●  [ESLINT](https://eslint.org/)
+### ● [VueJs3](https://vuejs.org/) ● [NODE.JS](https://nodejs.org/pt-br) ● [NPM](https://www.npmjs.com/) ● [Nuxt](https://nuxt.com/) ● [ESLINT](https://eslint.org/)
 
 
 ## 🎲 Rodando a aplicação
@@ -58,3 +58,4 @@ $ npm start
 ## 🗯️ informações importantes
 
 - Ao subir um código fazer [Commits significativos](https://www.gitkraken.com/learn/git/best-practices/git-commit-message)
+- Lembrar de comentar o código descrevendo o que as funções/objetos fazem!

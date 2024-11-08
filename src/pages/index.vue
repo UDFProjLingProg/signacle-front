@@ -1,6 +1,6 @@
 <template>
   <div>
-    Olá
+    <button type="button" class="btn btn-secondary">Secondary</button>
   </div>
 </template>
 

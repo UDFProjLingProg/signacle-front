@@ -4,10 +4,12 @@ export default defineNuxtConfig({
   ssr: false,
   srcDir: 'src/',
   typescript: { shim: false },
+
   app: {
     /* https://nuxt.com/docs/getting-started/transitions */
     pageTransition: { name: 'page', mode: 'out-in' }
   },
+
   /* https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens */
   runtimeConfig: {
     // public/client-side
@@ -15,11 +17,14 @@ export default defineNuxtConfig({
       teste: 'valor teste' // NUXT_PUBLIC_TESTE (varenv)
     }
   },
+
   /* Estilos gerais (https://nuxt.com/docs/getting-started/styling#using-preprocessors) */
   css: ['~/assets/scss/main.scss'],
+
   modules: [
     '@pinia/nuxt'
   ],
+
   vite: {
     // preprocessors
     css: {
@@ -30,7 +35,10 @@ export default defineNuxtConfig({
       }
     },
   },
+
   devServer: {
     host: '127.0.0.1'
-  }
+  },
+
+  compatibilityDate: '2024-11-12'
 })

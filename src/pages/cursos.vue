@@ -1,6 +1,5 @@
 <template>
-    <div style="background-color: #003B76; min-height: 100vh;">
-    
+    <div>
         <div class="d-flex">
                 <div class="col-8">
                     <div class="icons" style=" justify-content: left;
@@ -9,7 +8,7 @@
                         padding-top: 50px;">
                         <div class="container text-center">
                                 <div class="row row-cols-auto" style="padding-left: 40px;">
-                                    <div class="col"v-for="(curso, i) in cursos" :key="i">
+                                    <div class="col" v-for="(curso, i) in cursos" :key="i">
                                         <div class="hover-div position-relative">
                                             <img :src="curso.logo"
                                             class="rounded-circle" alt="..." style="height: 120px; width: 120px; ">

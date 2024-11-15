@@ -4,11 +4,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 @import "bootstrap/dist/css/bootstrap";
 
-:root {
+.root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #003B76;
+  width: 100dvw;
+  min-height: 100dvh;
 }
 
 /* scrollbar width */
@@ -33,12 +36,12 @@
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: ligth;
-  scroll-behavior: smooth;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 
 .backdrop-no-blur {

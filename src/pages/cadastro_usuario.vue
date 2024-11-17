@@ -17,7 +17,7 @@
         <div>
           <input type="password" class="" placeholder="Confirmar senha" required/>
         </div>
-        <button type="submit" class="btn btn-primary ">CADASTRAR USUÁRIO</button>
+        <button type="submit" class="btn btn-primary">CADASTRAR USUÁRIO</button>
       </form>
     </div>
   </div>

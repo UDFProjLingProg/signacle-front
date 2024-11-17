@@ -31,7 +31,6 @@
         <button-component label="Equipe" />
         <button-component label="Signacle" />
         <button-component label="Contato" />
-        <button-component label="Início" />
       </div>
     </div>
 

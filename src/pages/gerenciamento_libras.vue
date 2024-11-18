@@ -10,7 +10,6 @@
   
       <div class="accordion-container">
         <div class="accordion" id="accordionCursos">
-          <!-- Cursos -->
           <div v-for="(curso, cursoIndex) in cursos" :key="cursoIndex" class="accordion-item">
             <h2 class="accordion-header" :id="'headingCurso' + cursoIndex">
               <button
@@ -42,7 +41,6 @@
               data-bs-parent="#accordionCursos"
             >
               <div class="accordion-body">
-                <!--Tópicos -->
                 <div class="accordion" :id="'accordionTopicos' + cursoIndex">
                   <div
                     v-for="(topico, topicoIndex) in curso.materias"

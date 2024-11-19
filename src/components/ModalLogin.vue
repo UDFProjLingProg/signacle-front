@@ -45,8 +45,15 @@ let toast = null
 const {email, loading, password, login} = useModalComposable()
 
 onMounted(() => {
-    modal = new Modal(document.getElementById('modalLogin'))
-    toast = new Toast(document.getElementById('liveToast'))
+    const modalElement = document.getElementById('modalLogin')
+    if (modalElement) {
+        modal = new Modal(modalElement)
+    }
+
+    const toastElement = document.getElementById('liveToast')
+    if (toastElement) {
+        toast = new Toast(toastElement)
+    }
 })
 
 onUnmounted(() => {
@@ -56,17 +63,15 @@ onUnmounted(() => {
 })
 
 const teste = () => {
-  login(email.value, password.value, toast)
-}
+    if (email.value && password.value) {
+        login(email.value, password.value, toast)
+    }
 
-const newFunction = () => {
-  const parentComponent = getCurrentInstance().parent
-    if (parentComponent) {
-        parentComponent.exposed.showToast({
-            title: 'My Toast',
-            message: 'This is a test message',
-            time: 'just now'
-        })
+    // Verifique se o toast foi inicializado antes de chamá-lo
+    if (toast) {
+        toast.show()
+    } else {
+        console.error('Toast not initialized.')
     }
 }
 

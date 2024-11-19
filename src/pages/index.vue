@@ -33,10 +33,6 @@
             <iframe  src="https://www.youtube.com/embed/-ZDkdbPqUZg?si=4aCbBxEOXSYQdyzH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowfullscreen></iframe>
           </div>
         </div>
-
-        <button class="btn btn-success" @click="emits('toast', {
-          message: 'Chamando todos os autobots'
-        })">É o tostas</button>
       </div>
     </div>
   </div>

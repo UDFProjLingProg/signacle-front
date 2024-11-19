@@ -25,13 +25,12 @@ export default defineNuxtConfig({
       backend_url: process.env.BACKEND_URL || 'http://localhost:8081'
     }
   },
-  
+
   /* Estilos gerais (https://nuxt.com/docs/getting-started/styling#using-preprocessors) */
   css: ['~/assets/scss/main.scss'],
-  
 
   modules: [
-    '@pinia/nuxt'
+    '@pinia/nuxt',
   ],
 
   vite: {
@@ -48,4 +47,6 @@ export default defineNuxtConfig({
   devServer: {
     host: '127.0.0.1'
   },
+
+  compatibilityDate: '2024-11-18',
 })

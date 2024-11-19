@@ -1,19 +1,17 @@
 <template>
   <div>
     <div class="d-flex">
-      <div class="col-8">
-        <div class="icons" style=" justify-content: left;
-                        display: flex;
-                        justify-content: space-evenly;
-                        padding-top: 50px;">
+      <div class="col-md-8">
+        <div class="icons" style="margin-top: 50px;">
           <div class="container text-center">
-            <div class="row row-cols-auto" style="padding-left: 40px;">
+            <div class="row row-cols-auto d-flex align-items-center justify-content-evenly">
               <div class="col" v-for="(curso, i) in cursos" :key="i">
-                <div class="hover-div position-relative">
-                  <img :src="curso.logo"
-                       class="rounded-circle" alt="..." style="height: 120px; width: 120px; ">
-                  <img :src="curso.auxImg"
-                       width="400px" alt="Imagem " class="dropdown-image">
+                <div class="hover-div position-relative d-flex flex-column align-items-center">
+                  <button class="btn rounded-circle" style="width: 110px; height: 110px;" @click="navigateToTopics(curso.id)">
+                    <img :src="curso.logo" class="rounded-circle" alt="..." style="width: 110px; height: 110px;">
+                  </button>
+
+                  <img :src="curso.auxImg" width="400px" alt="Imagem " class="dropdown-image rounded">
                 </div>
               </div>
             </div>
@@ -39,38 +37,55 @@
 </template>
 
 <script setup>
+import tiLogo from '@/assets/images/ti-logo.png'
+import medVetLogo from '@/assets/images/med-vet-logo.png'
+import nutriLogo from '@/assets/images/nutri-logo.png'
+import businessLogo from '@/assets/images/business-logo.png'
+import tiBg from '@/assets/images/ti-background.png'
+import medVetBg from '@/assets/images/medvet-background.png'
+import nutriBg from '@/assets/images/nutri-background.png'
+import bsBg from '@/assets/images/business-background.png'
+const router = useRouter()
+
+const navigateToTopics = (id) => {
+  router.push(`topicos/${id}`)
+}
+
 const cursos = [
   {
-    logo: 'https://s3-alpha-sig.figma.com/img/dd0b/be56/01ddbb971b4f708480fd541cdf3ba895?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nXg-WP-uIdvz3UFcfKlH05jJMDEicRSoHSjBDb1wJjkrV5qFTUqF6JzWc4TgUtWINE~Z77qfDtC6VOH--lNvqcTlgq7W9Ac4MDrNOhAKU4eyZi3RPGCGrlv91UKjDUZLoLtIl0CQeErlXEK2MoFi8QVJymHN0LnmmRKxmnSSAcX6~rVYMlARVHFX1j8vjbjNP0bJL6jsLAw37~9L9n4jHKoKWHwlUUynAkIKFQR4M-M5kQzAA1pc9zf5wjA8f1T6SV5HJjJOO8mFFAHWZrdPi8hfqfVq5etSpOSaUCO608uubvM00BkuYT4iU1ezPGuEdJfMSO-PI1oAXCZbSWra-w__',
-    auxImg: 'https://s3-alpha-sig.figma.com/img/d098/f908/607f3c33fa871b126d263cc1320acee8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ao7TYaHD6GU8C-bKXK7EGULxE7ty-CfxvfLcj~X~XaSIUSxVC9wxs5Telec6K2lAg8gVu4pIsyhPZ2xJalkCPY3zCXwM4Y2yNkE~EBPpWTJxLYU6a2B9r3qAxIFSoMNKlvBdC8hDpEe6jURw2DSwG0Qt1OBHwtAmDUR~iPJkDAypQG0NtI4R2kGN~6tmpFQo72wgPPDh6uZJnjonwC46LWNvYHpTudkqjJT4AVnp6gUApFZCB6ewUOaMgB~YmbaM~GXoAq07iMnZVAMxHCoUoT4yi~ifp0MLjTwdS5gYZ~mqPTVVnZvF3FLqBJtpL-DpFqd3HL~-yaRcmkZxxtvdEQ__'
+    id: '8aa30d39-254e-49e2-8677-ac7b2d0a2d88',
+    logo: tiLogo,
+    auxImg: tiBg
   },
   {
-    logo: 'https://s3-alpha-sig.figma.com/img/dd0b/be56/01ddbb971b4f708480fd541cdf3ba895?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=nXg-WP-uIdvz3UFcfKlH05jJMDEicRSoHSjBDb1wJjkrV5qFTUqF6JzWc4TgUtWINE~Z77qfDtC6VOH--lNvqcTlgq7W9Ac4MDrNOhAKU4eyZi3RPGCGrlv91UKjDUZLoLtIl0CQeErlXEK2MoFi8QVJymHN0LnmmRKxmnSSAcX6~rVYMlARVHFX1j8vjbjNP0bJL6jsLAw37~9L9n4jHKoKWHwlUUynAkIKFQR4M-M5kQzAA1pc9zf5wjA8f1T6SV5HJjJOO8mFFAHWZrdPi8hfqfVq5etSpOSaUCO608uubvM00BkuYT4iU1ezPGuEdJfMSO-PI1oAXCZbSWra-w__',
-    auxImg: 'https://s3-alpha-sig.figma.com/img/d098/f908/607f3c33fa871b126d263cc1320acee8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ao7TYaHD6GU8C-bKXK7EGULxE7ty-CfxvfLcj~X~XaSIUSxVC9wxs5Telec6K2lAg8gVu4pIsyhPZ2xJalkCPY3zCXwM4Y2yNkE~EBPpWTJxLYU6a2B9r3qAxIFSoMNKlvBdC8hDpEe6jURw2DSwG0Qt1OBHwtAmDUR~iPJkDAypQG0NtI4R2kGN~6tmpFQo72wgPPDh6uZJnjonwC46LWNvYHpTudkqjJT4AVnp6gUApFZCB6ewUOaMgB~YmbaM~GXoAq07iMnZVAMxHCoUoT4yi~ifp0MLjTwdS5gYZ~mqPTVVnZvF3FLqBJtpL-DpFqd3HL~-yaRcmkZxxtvdEQ__'
+    id: '1bab5fb5-1d49-4726-a1c1-7e18c6c92566',
+    logo: medVetLogo,
+    auxImg: medVetBg
   },
   {
-    logo: 'https://s3-alpha-sig.figma.com/img/d098/f908/607f3c33fa871b126d263cc1320acee8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ao7TYaHD6GU8C-bKXK7EGULxE7ty-CfxvfLcj~X~XaSIUSxVC9wxs5Telec6K2lAg8gVu4pIsyhPZ2xJalkCPY3zCXwM4Y2yNkE~EBPpWTJxLYU6a2B9r3qAxIFSoMNKlvBdC8hDpEe6jURw2DSwG0Qt1OBHwtAmDUR~iPJkDAypQG0NtI4R2kGN~6tmpFQo72wgPPDh6uZJnjonwC46LWNvYHpTudkqjJT4AVnp6gUApFZCB6ewUOaMgB~YmbaM~GXoAq07iMnZVAMxHCoUoT4yi~ifp0MLjTwdS5gYZ~mqPTVVnZvF3FLqBJtpL-DpFqd3HL~-yaRcmkZxxtvdEQ__',
-    auxImg: 'https://s3-alpha-sig.figma.com/img/d098/f908/607f3c33fa871b126d263cc1320acee8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ao7TYaHD6GU8C-bKXK7EGULxE7ty-CfxvfLcj~X~XaSIUSxVC9wxs5Telec6K2lAg8gVu4pIsyhPZ2xJalkCPY3zCXwM4Y2yNkE~EBPpWTJxLYU6a2B9r3qAxIFSoMNKlvBdC8hDpEe6jURw2DSwG0Qt1OBHwtAmDUR~iPJkDAypQG0NtI4R2kGN~6tmpFQo72wgPPDh6uZJnjonwC46LWNvYHpTudkqjJT4AVnp6gUApFZCB6ewUOaMgB~YmbaM~GXoAq07iMnZVAMxHCoUoT4yi~ifp0MLjTwdS5gYZ~mqPTVVnZvF3FLqBJtpL-DpFqd3HL~-yaRcmkZxxtvdEQ__'
+    id: '64d72ac2-3725-4448-b7d1-5f4006c2babf',
+    logo: nutriLogo,
+    auxImg: nutriBg
   },
   {
-    logo: 'https://s3-alpha-sig.figma.com/img/3089/18cf/2c8eb9fd8b39094744d5201845aec345?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DW9QNtKv2yoXsQR1IDmUf7fkV~xahRRUqulpKR13hflJo9Kb2hEN7XwO0EMJb3~Tkgh9ITd9uR9vwSQP6gn1oxslNpXxBJuWqPvm8qJ9V0UdlAO-9mqYQfN~ES0BjnHqAQ68omIae0vOC6tz8nyZY70fuhxnbj~t3lw-4g2ZHHLhpZRz8sIqV3eNRpnlb2XsPaAMM~WFFwfKozILudUo4d6RUH61~DRqVcswEr-S5wehAkfg5xvv~-EY~d2b~eafVbbO-XPRVaXKs14UlZF~YfZaSBFK5y8v6cyPWm1QcJuuom1x8EjVwHjfxw46M2bbOH4cggReO57Bh17UQ4zwjQ__',
-    auxImg: 'https://s3-alpha-sig.figma.com/img/d098/f908/607f3c33fa871b126d263cc1320acee8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ao7TYaHD6GU8C-bKXK7EGULxE7ty-CfxvfLcj~X~XaSIUSxVC9wxs5Telec6K2lAg8gVu4pIsyhPZ2xJalkCPY3zCXwM4Y2yNkE~EBPpWTJxLYU6a2B9r3qAxIFSoMNKlvBdC8hDpEe6jURw2DSwG0Qt1OBHwtAmDUR~iPJkDAypQG0NtI4R2kGN~6tmpFQo72wgPPDh6uZJnjonwC46LWNvYHpTudkqjJT4AVnp6gUApFZCB6ewUOaMgB~YmbaM~GXoAq07iMnZVAMxHCoUoT4yi~ifp0MLjTwdS5gYZ~mqPTVVnZvF3FLqBJtpL-DpFqd3HL~-yaRcmkZxxtvdEQ__'
+    id: 'd6b43986-81de-4c49-9d6e-f24e5c6e304f',
+    logo: businessLogo,
+    auxImg: bsBg
   },
 
 ]
 </script>
 
 <style>
-/* Design Body */
-
-/* Esconde a imagem inicialmente */
-
 .dropdown-image {
+  margin-top: 20px;
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
-  width: 120px;
+  width: 150px;
+  left: 0;
+  right: 0;
   height: 300px;
   object-fit: cover;
   border: 1px solid #ddd;

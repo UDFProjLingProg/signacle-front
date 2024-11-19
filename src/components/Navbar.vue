@@ -6,13 +6,14 @@
         <div class="header-left">
           <img src="/assets/images/udf-logo.png" alt="" height="60" />
           <img src="/assets/images/logo-signacle.png" alt="" height="60" />
+          <!--
           <img
             src="https://www.udf.edu.br/wp-content/themes/cruzeiroportais2019/assets/imagens/svg-icon-contraste.svg"
             alt=""
             width="15"
           />
           <a class="accessibility text-white">A+</a>
-          <a class="accessibility text-white">A-</a>
+          <a class="accessibility text-white">A-</a>-->
         </div>
 
         <!-- Direita -->
@@ -20,12 +21,10 @@
           <nuxt-link to="/">
             <button-component label="Início" />
           </nuxt-link>
-          <button-component label="Sobre" />
-          <button-component label="Equipe" />
-          <nuxt-link to="/cursos">
-            <button-component label="Signacle" />
+          <button-component label="Signacle" @click="navigateToSignacle"/>
+          <nuxt-link to="https://udf.edu.br">
+            <button-component label="Contato" />
           </nuxt-link>
-          <button-component label="Contato" />
           <!-- Ícone de Login -->
           <button type="button" class="btn btn-link pl-2 text-white" data-bs-toggle="modal" data-bs-target="#modalLogin">
             <i class="fas fa-user fs-4"></i>
@@ -34,11 +33,29 @@
       </div>
     </nav>
 
+    <ToastComponent v-if="toastIsVisible" :data="dataToPass"/>
     <modal-login />
   </header>
 </template>
 
 <script setup>
+import { Toast } from 'bootstrap'
+import ToastComponent from './ToastComponent.vue';
+const router = useRouter()
+
+let toast = ref(null);
+let toastIsVisible = ref(false);
+
+onMounted(() => {
+  const toastElement = document.getElementById('liveToast');
+  if (toastElement) {
+    toast.value = new Toast(toastElement);
+  }
+});
+
+const navigateToSignacle = () => {
+  router.push('/cursos');
+};
 </script>
 
 <style scoped>

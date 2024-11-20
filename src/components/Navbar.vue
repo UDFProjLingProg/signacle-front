@@ -48,7 +48,7 @@
     </nav>
 
     <ToastComponent v-if="toastIsVisible"/>
-    <modal-login />
+    <ModalLogin />
   </header>
 </template>
 

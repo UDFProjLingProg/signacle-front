@@ -1,123 +1,134 @@
 <template>
-  <div>
-    <div class="container">
-      <button class="btn btn-outline-light mt-4" @click="navigateBack">
-        <i class="bi bi-arrow-left"></i>
-      </button>
+  <div class="container">
+    <button class="btn btn-outline-light mt-4" @click="navigateBack">
+      <i class="bi bi-arrow-left"></i>
+    </button>
 
-      <div class="d-flex align-items-center justify-content-center mt-4">
-        <div class="accordion-container">
-          <div class="accordion" id="accordionCursos">
-            <div
-              v-for="(curso, cursoIndex) in data"
-              :key="cursoIndex"
+    <div class="d-flex align-items-center justify-content-center mt-4">
+      <div class="accordion-container">
+        <div class="accordion" id="accordionCursos">
+          <template v-if="data.length === 0">
+            <div class="text-center p-4">Não há cursos disponíveis</div>
+          </template>
+          <template v-else>
+            <div 
+              v-for="(curso, cursoIndex) in data" 
+              :key="curso.id || cursoIndex" 
               class="accordion-item"
             >
-              <h2 class="accordion-header" :id="'headingCurso' + cursoIndex">
+              <h2 class="accordion-header" :id="`headingCurso${cursoIndex}`">
                 <button
                   class="accordion-button collapsed d-flex justify-content-between align-items-center"
                   type="button"
                   data-bs-toggle="collapse"
-                  :data-bs-target="'#collapseCurso' + cursoIndex"
+                  :data-bs-target="`#collapseCurso${cursoIndex}`"
                   aria-expanded="false"
-                  :aria-controls="'collapseCurso' + cursoIndex"
+                  :aria-controls="`collapseCurso${cursoIndex}`"
                 >
                   <span class="flex-grow-1">{{ curso.name }}</span>
                   <span class="action-buttons">
-                    <button class="btn btn-icon">
+                    <button 
+                      class="btn btn-icon" 
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalTopic"
+                    >
                       <i class="bi bi-plus-lg icon-plus"></i>
                     </button>
                   </span>
                 </button>
               </h2>
               <div
-                :id="'collapseCurso' + cursoIndex"
+                :id="`collapseCurso${cursoIndex}`"
                 class="accordion-collapse collapse"
-                :aria-labelledby="'headingCurso' + cursoIndex"
+                :aria-labelledby="`headingCurso${cursoIndex}`"
                 data-bs-parent="#accordionCursos"
               >
                 <div class="accordion-body">
-                  <div class="accordion" :id="'accordionTopicos' + cursoIndex">
-                    <div v-if="curso.topic.length == 0" class="text-center p-4">
-                      Não há matérias para esse curso
-                    </div>
-                    <div
-                      v-else
-                      v-for="(topico, topicoIndex) in curso.topic"
-                      :key="topicoIndex"
-                      class="accordion-item"
-                    >
-                      <h2
-                        class="accordion-header"
-                        :id="'headingTopico' + cursoIndex + '-' + topicoIndex"
-                      >
-                        <button
-                          class="accordion-button collapsed d-flex justify-content-between align-items-center"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          :data-bs-target="
-                            '#collapseTopico' + cursoIndex + '-' + topicoIndex
-                          "
-                          aria-expanded="false"
-                          :aria-controls="
-                            'collapseTopico' + cursoIndex + '-' + topicoIndex
-                          "
-                        >
-                          <span class="flex-grow-1">{{ topico.word }}</span>
-                          <span class="action-buttons">
-                            <button class="btn btn-icon">
-                              <i class="bi bi-plus-lg icon-plus"></i>
-                            </button>
-                            <button class="btn btn-icon">
-                              <i class="bi bi-pencil icon-edit"></i>
-                            </button>
-                            <button class="btn btn-icon" @click="deleteTopic(topico.id)">
-                              <i class="bi bi-trash icon-delete"></i>
-                            </button>
-                          </span>
-                        </button>
-                      </h2>
+                  <div :id="`accordionTopicos${cursoIndex}`" class="accordion">
+                    <template v-if="!curso.topic || curso.topic.length === 0">
+                      <div class="text-center p-4">Não há matérias para esse curso</div>
+                    </template>
+                    <template v-else>
                       <div
-                        :id="'collapseTopico' + cursoIndex + '-' + topicoIndex"
-                        class="accordion-collapse collapse"
-                        :aria-labelledby="
-                          'headingTopico' + cursoIndex + '-' + topicoIndex
-                        "
-                        :data-bs-parent="'#accordionTopicos' + cursoIndex"
+                        v-for="(topico, topicoIndex) in curso.topic"
+                        :key="topico.id || topicoIndex"
+                        class="accordion-item"
                       >
-                        <div class="accordion-body">
-                          <div v-if="topico.libra.length == 0" class="text-center p-2">
-                            Não há sinais para essa matéria
+                        <h2 
+                          class="accordion-header" 
+                          :id="`headingTopico${cursoIndex}-${topicoIndex}`"
+                        >
+                          <button
+                            class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            :data-bs-target="`#collapseTopico${cursoIndex}-${topicoIndex}`"
+                            aria-expanded="false"
+                            :aria-controls="`collapseTopico${cursoIndex}-${topicoIndex}`"
+                          >
+                            <span class="flex-grow-1">{{ topico.word }}</span>
+                            <span class="action-buttons">
+                              <button class="btn btn-icon" @click="addLibra(topico)" data-bs-toggle="modal" data-bs-target="#modalConteudo">
+                                <i class="bi bi-plus-lg icon-plus"></i>
+                              </button>
+                              <button class="btn btn-icon" @click="editTopic(topico)">
+                                <i class="bi bi-pencil icon-edit"></i>
+                              </button>
+                              <button 
+                                class="btn btn-icon" 
+                                @click="deleteTopic(topico.id)"
+                              >
+                                <i class="bi bi-trash icon-delete"></i>
+                              </button>
+                            </span>
+                          </button>
+                        </h2>
+                        <div
+                          :id="`collapseTopico${cursoIndex}-${topicoIndex}`"
+                          class="accordion-collapse collapse"
+                          :aria-labelledby="`headingTopico${cursoIndex}-${topicoIndex}`"
+                          :data-bs-parent="`#accordionTopicos${cursoIndex}`"
+                        >
+                          <div class="accordion-body">
+                            <div v-if="!topico.libra || topico.libra.length === 0" class="text-center p-2">Não há sinais para essa matéria</div>
+                            <ul v-else class="list-group">
+                              <li
+                                v-for="(materia, materiaIndex) in topico.libra"
+                                :key="materia.id || materiaIndex"
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                              >
+                                {{ materia.name }}
+                                <span class="action-buttons">
+                                  <button 
+                                    class="btn btn-icon" 
+                                    @click="editLibra(materia)"
+                                  >
+                                    <i class="bi bi-pencil icon-edit"></i>
+                                  </button>
+                                  <button 
+                                    class="btn btn-icon" 
+                                    @click="deleteLibra(materia.id)"
+                                  >
+                                    <i class="bi bi-trash icon-delete"></i>
+                                  </button>
+                                </span>
+                              </li>
+                            </ul>
                           </div>
-                          <!-- Matérias -->
-                          <ul class="list-group" v-else>
-                            <li
-                              v-for="(materia, materiaIndex) in topico.libra"
-                              :key="materiaIndex"
-                              class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                              {{ materia.name }}
-                              <span class="action-buttons">
-                                <button class="btn btn-icon">
-                                  <i class="bi bi-pencil icon-edit"></i>
-                                </button>
-                                <button class="btn btn-icon">
-                                  <i class="bi bi-trash icon-delete"></i>
-                                </button>
-                              </span>
-                            </li>
-                          </ul>
                         </div>
                       </div>
-                    </div>
+                    </template>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
+
+    <ModalTopic />
+    <ModalContent />
   </div>
 </template>
 

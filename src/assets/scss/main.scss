@@ -8,8 +8,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #003B76;
-  width: 100dvw;
-  min-height: 100dvh;
+  min-height: 100vh;
   font-family: 'Poppins', open-sans;
   overflow-x: hidden;
 }
@@ -121,7 +120,6 @@ p {
   filter: blur(5px);
 }
 
-.footer {
-  background: none !important;
-  color: $color-body-2 !important;
+footer {
+  background-color: #003B76;
 }

@@ -3,6 +3,7 @@ export function useModalComposable() {
     let email = ref("")
     let password = ref("")
     const userStore = piniaUserStore()
+    const toastStore = piniaToastStore()
 
     async function login(userEmail, userPassword, toast) {
         try {
@@ -16,16 +17,20 @@ export function useModalComposable() {
             const res = await $fetch("/auth/authenticate", {
                 baseURL: useRuntimeConfig().public.backend_url,
                 method: 'POST',
-                body: body
+                body: body,
             })
     
             if (res.token) {
+                toastStore.setToast("Login realizado com sucesso!", 'success')
                 userStore.saveUserToken(res.token)
+                toast.show()
             }
+
             loading.value = false
-            toast.show()
+
         } catch(e) {
             loading.value = false
+            toastStore.setToast("Falha ao realizar o login!", 'danger')
             toast.show()
         }   
     }

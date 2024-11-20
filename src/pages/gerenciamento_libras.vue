@@ -9,7 +9,7 @@
         <div class="accordion-container">
           <div class="accordion" id="accordionCursos">
             <div
-              v-for="(curso, cursoIndex) in cursos"
+              v-for="(curso, cursoIndex) in data"
               :key="cursoIndex"
               class="accordion-item"
             >
@@ -27,12 +27,6 @@
                     <button class="btn btn-icon">
                       <i class="bi bi-plus-lg icon-plus"></i>
                     </button>
-                    <button class="btn btn-icon">
-                      <i class="bi bi-pencil icon-edit"></i>
-                    </button>
-                    <button class="btn btn-icon">
-                      <i class="bi bi-trash icon-delete"></i>
-                    </button>
                   </span>
                 </button>
               </h2>
@@ -44,8 +38,12 @@
               >
                 <div class="accordion-body">
                   <div class="accordion" :id="'accordionTopicos' + cursoIndex">
+                    <div v-if="curso.topic.length == 0" class="text-center p-4">
+                      Não há matérias para esse curso
+                    </div>
                     <div
-                      v-for="(topico, topicoIndex) in curso.materias"
+                      v-else
+                      v-for="(topico, topicoIndex) in curso.topic"
                       :key="topicoIndex"
                       class="accordion-item"
                     >
@@ -65,7 +63,7 @@
                             'collapseTopico' + cursoIndex + '-' + topicoIndex
                           "
                         >
-                          <span class="flex-grow-1">{{ topico.name }}</span>
+                          <span class="flex-grow-1">{{ topico.word }}</span>
                           <span class="action-buttons">
                             <button class="btn btn-icon">
                               <i class="bi bi-plus-lg icon-plus"></i>
@@ -73,7 +71,7 @@
                             <button class="btn btn-icon">
                               <i class="bi bi-pencil icon-edit"></i>
                             </button>
-                            <button class="btn btn-icon">
+                            <button class="btn btn-icon" @click="deleteTopic(topico.id)">
                               <i class="bi bi-trash icon-delete"></i>
                             </button>
                           </span>
@@ -88,10 +86,13 @@
                         :data-bs-parent="'#accordionTopicos' + cursoIndex"
                       >
                         <div class="accordion-body">
+                          <div v-if="topico.libra.length == 0" class="text-center p-2">
+                            Não há sinais para essa matéria
+                          </div>
                           <!-- Matérias -->
-                          <ul class="list-group">
+                          <ul class="list-group" v-else>
                             <li
-                              v-for="(materia, materiaIndex) in curso.materias2"
+                              v-for="(materia, materiaIndex) in topico.libra"
                               :key="materiaIndex"
                               class="list-group-item d-flex justify-content-between align-items-center"
                             >
@@ -127,6 +128,15 @@ const navigateBack = () => {
   router.back();
 };
 
+const data = ref([])
+const { fetchAllData, deleteTopicById } = useGerenciamentoComposable()
+
+const deleteTopic = async (id) => {
+  console.log("Entrou aqui");
+  
+  await deleteTopicById(id)
+}
+
 onMounted(() => {
   const script = document.createElement("script");
   script.src =
@@ -134,10 +144,17 @@ onMounted(() => {
   script.async = true;
   document.body.appendChild(script);
 });
+
+onBeforeMount(async() => {
+  data.value = await fetchAllData()
+})
+
+useHead({
+  title: 'Gerenciamento'
+})
 </script>
 
 <style scoped>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css");
 .back-button:hover {
   background-color: #f8f9fa;

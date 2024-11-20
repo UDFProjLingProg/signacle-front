@@ -18,17 +18,9 @@
         </div>
 
         <div class="col-md-12 text-center d-flex align-items-center justify-content-between">
-          <div class="d-flex gap-3 mt-4">
-            <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
-              <i class="fas fa-info-circle text-white"></i>
-            </button>
-            <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
-              <i class="fas fa-users text-white"></i>
-            </button>
-            <button class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
-              <i class="fas fa-arrow-right text-white"></i>
-            </button>
-          </div>
+          <button @click="navigatoToSignacle" class="btn bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+            <i class="fas fa-arrow-right text-white fs-2" ></i>
+          </button>
           <div class="embed-responsive embed-responsive-16by9">
             <iframe  src="https://www.youtube.com/embed/-ZDkdbPqUZg?si=4aCbBxEOXSYQdyzH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowfullscreen></iframe>
           </div>
@@ -39,6 +31,15 @@
 </template>
 
 <script setup>
+  const router = useRouter()
+
+  const navigatoToSignacle = () => {
+    router.push('/cursos')
+  }
+
+  useHead({
+    title: 'Signacle'
+  })
 </script>
 
 <style scoped>

@@ -8,7 +8,7 @@ export const piniaToastStore = defineStore('toast', {
     actions: {
         setToast(message, result) {
             this.mensagem = message
-            this.resultado = result
+            this.resultado = result // success, warning, danger
         }
     }
 })

@@ -23,6 +23,13 @@
   </div>
 </template>
 
+<script setup>
+
+useHead({
+  title: 'Cadastro'
+})
+</script>
+
 <style scoped>
 .container form {
   width: 100%;

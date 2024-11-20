@@ -7,12 +7,22 @@
       aria-live="assertive" 
       aria-atomic="true"
     >
-      <div class="toast-header">
-        <strong class="me-auto">Signacle</strong>
+      <div class="toast-header"
+        :class="{
+          'bg-success': toastStore.resultado == 'success',
+          'bg-warning': toastStore.resultado == 'warning',
+          'bg-danger': toastStore.resultado == 'danger'
+        }"
+      >
+        <strong class="me-auto text-white">Signacle</strong>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-      <div class="toast-body">
-        {{ toastStore.mensagem || 'Wow' }}
+      <div class="toast-body" :class="{
+        'bg-success-subtle': toastStore.resultado == 'success',
+        'bg-warning-subtle': toastStore.resultado == 'warning',
+        'bg-danger-subtle': toastStore.resultado == 'danger'
+      }">
+        {{ toastStore.mensagem }}
       </div>
     </div>
   </div>

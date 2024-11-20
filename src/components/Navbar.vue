@@ -21,41 +21,70 @@
           <nuxt-link to="/">
             <button-component label="Início" />
           </nuxt-link>
-          <button-component label="Signacle" @click="navigateToSignacle"/>
+          <button-component label="Signacle" @click="navigateToSignacle" />
           <nuxt-link to="https://udf.edu.br">
             <button-component label="Contato" />
           </nuxt-link>
           <!-- Ícone de Login -->
-          <button type="button" class="btn btn-link pl-2 text-white" data-bs-toggle="modal" data-bs-target="#modalLogin">
+          <button
+            v-if="!userStore.apiToken"
+            type="button"
+            class="btn btn-link pl-2 text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#modalLogin"
+          >
             <i class="fas fa-user fs-4"></i>
+          </button>
+          <button
+            @click="logout"
+            v-else
+            type="button"
+            class="btn btn-link pl-2 text-white"
+          >
+            <i class="bi bi-box-arrow-right fs-4"></i>
           </button>
         </div>
       </div>
     </nav>
 
-    <ToastComponent v-if="toastIsVisible" :data="dataToPass"/>
+    <ToastComponent v-if="toastIsVisible"/>
     <modal-login />
   </header>
 </template>
 
 <script setup>
-import { Toast } from 'bootstrap'
-import ToastComponent from './ToastComponent.vue';
-const router = useRouter()
+import { Toast } from "bootstrap";
+import ToastComponent from "./ToastComponent.vue";
+const userStore = piniaUserStore();
+const toastStore = piniaToastStore()
+const router = useRouter();
 
 let toast = ref(null);
 let toastIsVisible = ref(false);
 
 onMounted(() => {
-  const toastElement = document.getElementById('liveToast');
+  const toastElement = document.getElementById("liveToast");
   if (toastElement) {
     toast.value = new Toast(toastElement);
   }
 });
 
 const navigateToSignacle = () => {
-  router.push('/cursos');
+  router.push("/cursos");
 };
+
+const logout = () => {
+  toastIsVisible.value = false
+  userStore.logout()
+
+  if (userStore.apiToken == '') {
+    toastStore.setToast("Você desconectou da conta", 'warning')
+    if (toast) {
+      toastIsVisible.value = true
+      toast.value.show()
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -11,6 +11,7 @@
   width: 100dvw;
   min-height: 100dvh;
   font-family: 'Poppins', open-sans;
+  overflow-x: hidden;
 }
 
 /* scrollbar width */
@@ -123,40 +124,4 @@ p {
 .footer {
   background: none !important;
   color: $color-body-2 !important;
-}
-
-code {
-  font-family: $font-family-mono !important;
-}
-
-.code {
-  background-color: $color-light-3;
-  color: lighten($color-body-1, 10%);
-  border-radius: 4px;
-  line-height: 1.8;
-  font-size: 0.9em;
-  padding: 0.2em 0.4em;
-}
-
-/* Sobrepondo o vuetify */
-.v-application {
-  background: $color-bg-body !important;
-  color: $color-body-1 !important;
-}
-.v-app-bar.v-toolbar {
-  color: $color-body-2 !important;
-  border-bottom: 1px solid rgba(230, 235, 241, .8);
-}
-.v-navigation-drawer.v-navigation-drawer--left {
-  border-right: 1px solid rgba(230, 235, 241, .8);
-}
-.v-card-text {
-  font-size: 0.95rem !important;
-}
-.v-menu {
-  > .v-overlay__content {
-    > .v-sheet {
-      box-shadow: 0 0 4px #00000014 !important;
-    }
-  }
 }

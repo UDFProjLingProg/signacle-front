@@ -20,7 +20,6 @@ export default defineNuxtConfig({
 
   /* https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens */
   runtimeConfig: {
-    // public/client-side
     public: {
       backend_url: process.env.BACKEND_URL || 'http://localhost:8081'
     }

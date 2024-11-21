@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="labelModalLogin" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
           <div class="modal-header">
@@ -55,8 +55,8 @@
 import { Modal, Toast } from 'bootstrap'
 import { useModalComposable } from '~/composables/ModalLoginComposable';
 
-let modal = null
-let toast = null
+const modal = ref(null)
+const toast = ref(null)
 const emailError = ref(null)
 const passwordError = ref(null)
 
@@ -65,22 +65,20 @@ const {email, loading, password, login} = useModalComposable()
 onMounted(() => {
     const modalElement = document.getElementById('modalLogin')
     if (modalElement) {
-        modal = new Modal(modalElement)
+        modal.value = new Modal(modalElement)
     }
 
     const toastElement = document.getElementById('liveToast')
     if (toastElement) {
-        toast = new Toast(toastElement)
+        toast.value = new Toast(toastElement)
     }
 })
 
 onUnmounted(() => {
     if (modal) {
-        modal.dispose()
+        modal.value.dispose()
     }
 })
-
-watch
 
 const validateAndLogin = () => {
   emailError.value = null
@@ -96,11 +94,13 @@ const validateAndLogin = () => {
     passwordError.value = 'A senha é obrigatória.'
   }
 
-  if (!emailError.value && !passwordError.value) {
-    console.log("Chegou no login");
-    
-    login(email.value, password.value, toast)
+  if (!emailError.value && !passwordError.value) {    
+    login(email.value, password.value, toast.value)
   }
+
+  setTimeout(() => {
+    modal?.value.hide()
+  }, 500)
 }
 
 const isValidEmail = (email) => {

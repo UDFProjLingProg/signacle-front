@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   },
 
   /* Estilos gerais (https://nuxt.com/docs/getting-started/styling#using-preprocessors) */
-  css: ['~/assets/scss/main.scss'],
+  css: ['~/assets/scss/main.scss', '~/assets/scss/fonts.scss'],
 
   modules: [
     '@pinia/nuxt',

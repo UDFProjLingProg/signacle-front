@@ -9,7 +9,7 @@
   -moz-osx-font-smoothing: grayscale;
   background-color: #003B76;
   min-height: 100vh;
-  font-family: 'Poppins', open-sans;
+  font-family: 'Myriad Pro', sans-serif;
   overflow-x: hidden;
 }
 
@@ -21,12 +21,12 @@
 
 /* scrollbar Track */
 ::-webkit-scrollbar-track {
-  background: $color-primary;
+  background: #0d6efd;
 }
 
 /* scrollbar Handle */
 ::-webkit-scrollbar-thumb {
-  background: $color-accent;
+  background: #198754;
 }
 
 /* scrollbar Handle on hover */
@@ -48,15 +48,11 @@
 }
 
 .backdrop-blur {
-  -webkit-backdrop-filter: blur($backdrop-blur);
-  backdrop-filter: blur($backdrop-blur);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   background-color: rgba(255, 255, 255, 0.8) !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-title !important;
-  text-transform: none !important;
-}
 
 h1 {
   font-size: 2.5rem !important;
@@ -122,4 +118,8 @@ p {
 
 footer {
   background-color: #003B76;
+}
+
+.topic-background {
+  background-color: #77B1EB;
 }

@@ -4,7 +4,7 @@
       <img :src="logoSignacle" style="object-fit: contain; height: 80px">
 
       <div class="d-flex flex-column align-items-start">
-          <h4 class="border-bottom text-white">Contato</h4>
+          <h4 class="border-bottom text-white fw-semibold">Contato</h4>
           <p class="text-white">contato@udf.edu.br</p>
       </div>
     </footer>

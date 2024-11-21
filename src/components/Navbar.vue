@@ -19,15 +19,15 @@
         <!-- Direita -->
         <div class="header-right">
           <nuxt-link to="/">
-            <button-component label="Início" />
+            <button class="btn btn-link text-white fw-bold" style="text-decoration: none;">Início</button>
           </nuxt-link>
-          <button-component label="Signacle" @click="navigateToSignacle" />
+          <button class="btn btn-link text-white fw-bold" style="text-decoration: none;" @click="navigateToSignacle">Signacle</button>
           <nuxt-link to="https://udf.edu.br">
-            <button-component label="Contato" />
+            <button class="btn btn-link text-white fw-bold" style="text-decoration: none;">Contato</button>
           </nuxt-link>
           <!-- Ícone de Login -->
           <button
-            v-if="!userStore.apiToken"
+            v-if="userStore.apiToken == null"
             type="button"
             class="btn btn-link pl-2 text-white"
             data-bs-toggle="modal"
@@ -54,13 +54,13 @@
 
 <script setup>
 import { Toast } from "bootstrap";
-import ToastComponent from "./ToastComponent.vue";
+
 const userStore = piniaUserStore();
 const toastStore = piniaToastStore()
 const router = useRouter();
 
-let toast = ref(null);
-let toastIsVisible = ref(false);
+const toast = ref(null);
+const toastIsVisible = ref(false);
 
 onMounted(() => {
   const toastElement = document.getElementById("liveToast");
@@ -77,7 +77,7 @@ const logout = () => {
   toastIsVisible.value = false
   userStore.logout()
 
-  if (userStore.apiToken == '') {
+  if (userStore.apiToken == null) {
     toastStore.setToast("Você desconectou da conta", 'warning')
     if (toast) {
       toastIsVisible.value = true
@@ -113,8 +113,12 @@ const logout = () => {
   color: #fff;
 }
 
-.btn-link i {
-  color: #fff; /* Cor do ícone de login */
+.btn-link {
+   transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+  background-color: #0d6efd;
 }
 
 .modal-content {

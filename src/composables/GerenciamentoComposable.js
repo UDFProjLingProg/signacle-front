@@ -11,7 +11,6 @@ export function useGerenciamentoComposable() {
             })
 
             if (response) {
-                console.log(response);
                 return response
             }
         }

@@ -84,10 +84,10 @@
                           </button>
                         </h2>
                         <div
-                          :id="`collapseTopico${cursoIndex}-${topicoIndex}`"
-                          class="accordion-collapse collapse"
-                          :aria-labelledby="`headingTopico${cursoIndex}-${topicoIndex}`"
-                          :data-bs-parent="`#accordionTopicos${cursoIndex}`"
+                        :id="`collapseTopico${cursoIndex}-${topicoIndex}`"
+                        class="accordion-collapse collapse"
+                        :aria-labelledby="`headingTopico${cursoIndex}-${topicoIndex}`"
+                        :data-bs-parent="`#accordionTopicos${cursoIndex}`"
                         >
                           <div class="accordion-body">
                             <div v-if="!topico.libra || topico.libra.length === 0" class="text-center p-2">Não há sinais para essa matéria</div>
@@ -126,25 +126,31 @@
         </div>
       </div>
     </div>
-
-    <ModalTopic />
+    <ModalTopico v-if="idTopic != null" :idTopic="idTopico"/>
     <ModalContent />
   </div>
 </template>
 
 <script setup>
+import { Modal } from 'bootstrap'
 const router = useRouter();
+const { fetchAllData, deleteTopicById } = useGerenciamentoComposable()
+const modalStore = piniaModalStore()
+
+const data = ref([])
+const modalTopico = ref(null)
+const modalConteudo = ref(null)
+
+// Funções da página
+const addLibra = (topico) => {
+  modalStore.saveIdTopic(topico.id)
+}
 
 const navigateBack = () => {
   router.back();
 };
 
-const data = ref([])
-const { fetchAllData, deleteTopicById } = useGerenciamentoComposable()
-
-const deleteTopic = async (id) => {
-  console.log("Entrou aqui");
-  
+const deleteTopic = async (id) => {  
   await deleteTopicById(id)
 }
 
@@ -154,10 +160,31 @@ onMounted(() => {
     "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
   script.async = true;
   document.body.appendChild(script);
+
+  const modalTopicoElement = document.getElementById('modalTopic')
+  const modalConteudoElement = document.getElementById('modalConteudo')
+
+  if (modalTopicoElement) {
+    modalTopico.value = new Modal(modalTopicoElement)
+  }
+
+  if (modalConteudoElement) {
+    modalConteudo.value = new Modal(modalConteudoElement)
+  }
 });
 
 onBeforeMount(async() => {
   data.value = await fetchAllData()
+})
+
+onUnmounted(() => {
+  if (modalConteudo.value != null) {
+    modalConteudo.value.dispose()
+  }
+
+  if (modalTopico.value != null) {
+    modalTopico.value.dispose()
+  }
 })
 
 useHead({

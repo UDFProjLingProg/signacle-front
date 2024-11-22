@@ -46,10 +46,10 @@
             <div
               class="row row-cols-auto d-flex align-items-center justify-content-evenly w-100"
             >
-              <div class="col mt-4" v-for="(curso, i) in cursos" :key="i">
+              <div class="col mt-4" v-for="(course, i) in courses" :key="i">
                 <button
                   class="btn curso-btn d-flex align-items-center justify-content-center p-3"
-                  @click="changeTopic(curso.id, i)"
+                  @click="changeTopic(course.id, i)"
                 >
                   <img :src="cursosImages[i]" alt="..." width="70px" />
                 </button>
@@ -87,12 +87,12 @@ import { Toast } from "bootstrap";
 
 const router = useRouter();
 const toastStore = piniaToastStore();
-const { fetchAllCourses } = useCursosComposable();
+const { fetchCourses } = useCoursesComposable();
 
 const cursosImages = [tiLogo, medVetLogo, nutriLogo, businessLogo];
 
 const toast = ref(null);
-const cursos = ref([]);
+const courses = ref([]);
 const chooseContent = ref(false)
 const currentContent = ref(null)
 const currentTopicId = ref(null)
@@ -104,7 +104,7 @@ onMounted(async () => {
     toast.value = new Toast(toastElement);
   }
 
-  cursos.value = await fetchAllCourses(toast.value, toastStore);
+  courses.value = await fetchCourses(toast.value, toastStore);
 });
 
 const changeTopic = (id, index) => {
@@ -118,7 +118,7 @@ const navigateToTopics = () => {
 }
 
 useHead({
-  title: "Cursos",
+  title: "courses",
 });
 </script>
 

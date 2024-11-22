@@ -28,6 +28,7 @@
                   <span class="flex-grow-1">{{ curso.name }}</span>
                   <span class="action-buttons">
                     <button 
+                      @click="addTopic(curso)"
                       class="btn btn-icon" 
                       data-bs-toggle="modal"
                       data-bs-target="#modalTopic"
@@ -68,7 +69,7 @@
                           >
                             <span class="flex-grow-1">{{ topico.word }}</span>
                             <span class="action-buttons">
-                              <button class="btn btn-icon" @click="addLibra(topico)" data-bs-toggle="modal" data-bs-target="#modalConteudo">
+                              <button class="btn btn-icon" @click="addSign(topico)" data-bs-toggle="modal" data-bs-target="#modalContent">
                                 <i class="bi bi-plus-lg icon-plus"></i>
                               </button>
                               <button class="btn btn-icon" @click="editTopic(topico)">
@@ -126,24 +127,29 @@
         </div>
       </div>
     </div>
-    <ModalTopico v-if="idTopic != null" :idTopic="idTopico"/>
-    <ModalContent />
+
+    <ModalTopic @fetchTopicsData="fetchDataAfterEmit"/>
+    <ModalContent @fetch-data="fetchDataAfterEmit"/>
   </div>
 </template>
 
 <script setup>
 import { Modal } from 'bootstrap'
 const router = useRouter();
-const { fetchAllData, deleteTopicById } = useGerenciamentoComposable()
+const { fetchAllCourses, deleteTopicById } = useManageComposable()
 const modalStore = piniaModalStore()
 
 const data = ref([])
-const modalTopico = ref(null)
-const modalConteudo = ref(null)
+const modalTopic = ref(null)
+const modalContent = ref(null)
 
 // Funções da página
-const addLibra = (topico) => {
+const addSign = (topico) => {
   modalStore.saveIdTopic(topico.id)
+}
+
+const addTopic = (curso) => {
+  modalStore.saveIdCourse(curso.id)
 }
 
 const navigateBack = () => {
@@ -154,6 +160,10 @@ const deleteTopic = async (id) => {
   await deleteTopicById(id)
 }
 
+const fetchDataAfterEmit = async () => {
+  data.value = await fetchAllCourses()
+}
+
 onMounted(() => {
   const script = document.createElement("script");
   script.src =
@@ -161,29 +171,29 @@ onMounted(() => {
   script.async = true;
   document.body.appendChild(script);
 
-  const modalTopicoElement = document.getElementById('modalTopic')
-  const modalConteudoElement = document.getElementById('modalConteudo')
+  const modalTopicElement = document.getElementById('modalTopic')
+  const modalContentElement = document.getElementById('modalContent')
 
-  if (modalTopicoElement) {
-    modalTopico.value = new Modal(modalTopicoElement)
+  if (modalTopicElement) {
+    modalTopic.value = new Modal(modalTopicElement)
   }
 
-  if (modalConteudoElement) {
-    modalConteudo.value = new Modal(modalConteudoElement)
+  if (modalContentElement) {
+    modalContent.value = new Modal(modalContentElement)
   }
 });
 
 onBeforeMount(async() => {
-  data.value = await fetchAllData()
+  data.value = await fetchAllCourses()
 })
 
 onUnmounted(() => {
-  if (modalConteudo.value != null) {
-    modalConteudo.value.dispose()
+  if (modalContent.value != null) {
+    modalContent.value.dispose()
   }
 
-  if (modalTopico.value != null) {
-    modalTopico.value.dispose()
+  if (modalTopic.value != null) {
+    modalTopic.value.dispose()
   }
 })
 

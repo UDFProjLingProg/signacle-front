@@ -13,15 +13,22 @@
         <i class="bi bi-gear"></i>
       </button>
 
-      <div class="d-flex align-items-start justify-content-between mt-4">
-        <div class="d-flex flex-column">
-          <div class="card mb-3" style="width: 22rem;" v-if="topics.length">
-            <div class="list-group list-group-flush">
-              <div
-                class="list-group-item list-group-item-action py-3"
-                v-for="(topic, i) in topics"
-                :key="i"
-                style="cursor: pointer;"
+      <div class="mt-4 d-flex justify-content-between flex-wrap">
+        <div
+          class="accordion"
+          style="width: 28rem"
+          id="topicsAccordion"
+          v-if="topics.length"
+        >
+          <div class="accordion-item" v-for="(topic, i) in topics" :key="i">
+            <h2 class="accordion-header" :id="'heading' + i">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + i"
+                aria-expanded="false"
+                :aria-controls="'collapse' + i"
                 @click="getContentFromTopic(topic)"
               >
                 <div class="d-flex align-items-center">
@@ -30,54 +37,54 @@
                   </div>
                   <span class="fs-5">{{ topic.word }}</span>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="card p-4 mb-3 d-flex align-items-center justify-content-center"
-            v-if="!topics.length && loading == false"
-          >
-            Não há dados para esse curso
-          </div>
-
-          <div
-            class="d-flex align-items-center justify-content-center"
-            v-if="loading"
-          >
-            <div class="spinner-grow text-white" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-
-          <!--Card com conteúdo do tópico clicado-->
-          <div v-if="loading" class="spinner-grow spinner-grow-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <div class="card mt-4" style="width: 22rem;" v-if="conteudo.length > 0">
-            <div class="card-header bg-light d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center">
-                <i class="bi bi-database me-2"></i>
-                <span class="fs-6">{{ clickedTopic }}</span>
-              </div>
-              <i class="bi bi-x-square text-black p-2" style="cursor: pointer;" @click="closeContentCard"></i>
-            </div>
-            <div class="list-group list-group-flush">
-              <a href="#" class="list-group-item list-group-item-action py-3" v-for="(content, cIndex) in conteudo" :key="cIndex" @click="changeVideoContent(content.urlVideo)">
-                <div class="d-flex align-items-center">
-                  <div class="icon-container me-3">
-                    <img v-if="content.urlImage != ''" :src="content.urlImage" alt="" height="30px" style="object-fit: contain;">
-                    <i v-else class="bi bi-filetype-sql"></i>
-                  </div>
-                  <span style="font-size: 14px">{{ content.name }}</span>
+              </button>
+            </h2>
+            <div
+              :id="'collapse' + i"
+              class="accordion-collapse collapse"
+              :aria-labelledby="'heading' + i"
+              data-bs-parent="#topicsAccordion"
+            >
+              <div class="accordion-body">
+                <div v-if="content.length">
+                  <ul class="list-group">
+                    <li
+                      class="list-group-item list-group-item-action"
+                      v-for="(content, cIndex) in content"
+                      :key="cIndex"
+                      @click="changeVideoContent(content.urlVideo)"
+                      style="cursor: pointer"
+                    >
+                      <div class="d-flex align-items-center">
+                        <img
+                          v-if="content.urlImage !== ''"
+                          :src="content.urlImage"
+                          alt=""
+                          height="30px"
+                          class="me-3"
+                        />
+                        <i v-else class="bi bi-filetype-sql me-3"></i>
+                        <span>{{ content.name }}</span>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
-              </a>
+                <div v-else class="text-center">
+                  <small>Sem conteúdo disponível para este tópico.</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
+        <div v-if="loading" class="text-center mt-4" style="width: 100%">
+          <div class="spinner-grow text-white" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
         <div class="col-md-6" v-if="selectedVideo">
-          <div class="custom-iframe" style="align-items: end; margin-top: 74px;">
+          <div class="custom-iframe">
             <iframe
               :src="selectedVideo"
               class="border"
@@ -87,6 +94,10 @@
           </div>
         </div>
       </div>
+
+      <div v-if="!topics.length && !loading" class="text-center mt-4">
+        <div class="card text-center p-4">Não há dados para esse curso</div>
+      </div>
     </div>
 
     <ToastComponent />
@@ -94,54 +105,46 @@
 </template>
 
 <script setup>
-import { Toast } from 'bootstrap'
+import { Toast } from "bootstrap";
 
 const route = useRoute();
 const router = useRouter();
 const userStore = piniaUserStore();
 const id = route.params.id;
-const { loading, fetchTopicsById, fetchTopicContent } = useTopicoComposable();
+const { loading, fetchTopicsById, fetchTopicContent } = useTopicComposable();
 
 const topics = ref([]);
-const conteudo = ref([])
-const clickedTopic = ref(null)
-const toast = ref(null)
-const selectedVideo = ref(null)
+const content = ref([]);
+const clickedTopic = ref(null);
+const toast = ref(null);
+const selectedVideo = ref(null);
 
 // Funções da página
 onMounted(async () => {
   topics.value = await fetchTopicsById(id);
 
-  const toastElement = document.getElementById('liveToast')
+  const toastElement = document.getElementById("liveToast");
   if (toastElement) {
-    toast.value = new Toast(toastElement)
+    toast.value = new Toast(toastElement);
   }
 });
 
-const getContentFromTopic = async (topico) => {
-  const topicoId = topico.id
-  const response = await fetchTopicContent(topicoId, toast.value)
+const getContentFromTopic = async (topic) => {
+  const topicId = topic.id;
+  const response = await fetchTopicContent(topicId);
 
   if (response) {
-    clickedTopic.value = topico.word
-    conteudo.value = response
+    clickedTopic.value = topic.word;
+    content.value = response;
   }
-}
+};
 
 const changeVideoContent = (urlVideo) => {
-  selectedVideo.value = urlVideo.replace("watch?v=", "embed/")
-  console.log(selectedVideo.value);
-  
-}
-
-const closeContentCard = () => {
-  conteudo.value = []
-  clickedTopic.value = null
-  selectedVideo.value = null
-}
+  selectedVideo.value = urlVideo.replace("watch?v=", "embed/");
+};
 
 const navigateBack = () => {
-  router.back();
+  router.replace("/cursos");
 };
 
 const navigatoToManage = () => {
@@ -156,15 +159,6 @@ const navigatoToManage = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.play-button {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.play-button:hover {
-  transform: scale(1.1);
 }
 
 .custom-iframe iframe {

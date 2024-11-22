@@ -1,9 +1,9 @@
 
-export function useCursosComposable() {
+export function useCoursesComposable() {
 
     const loading = ref(false) 
 
-    async function fetchAllCourses(toast, toastStore) {
+    async function fetchCourses(toast, toastStore) {
         try {
             loading.value = true
 
@@ -30,6 +30,6 @@ export function useCursosComposable() {
 
     return {
         loading,
-        fetchAllCourses
+        fetchCourses
     }
 }

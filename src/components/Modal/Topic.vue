@@ -2,15 +2,15 @@
   <div>
     <div
       class="modal fade"
-      id="modalContent"
+      id="modalTopic"
       tabindex="-1"
-      aria-labelledby="labelModalConteudo"
+      aria-labelledby="labelModalTopic"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content topic-background fw-semibold">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="labelModalConteudo">Conteúdo</h1>
+            <h1 class="modal-title fs-5" id="labelModalTopic">Tópico</h1>
             <button
               type="button"
               class="btn-close"
@@ -21,42 +21,42 @@
 
           <div class="modal-body">
             <div class="mb-3">
-              <label for="inputPalavra" class="form-label">Nome do sinal</label>
+              <label for="inputtopic" class="form-label">Nome do tópico</label>
               <input
-                v-model="sinalNome"
+                v-model="topicName"
                 type="text"
                 class="form-control border border-primary"
-                id="inputPalavra"
+                id="inputtopic"
                 placeholder="Digite o nome do sinal"
               />
-              <div v-if="validationErrors.sinalNome" class="text-danger">
-                {{ validationErrors.sinalNome }}
+              <div v-if="validationErrors.topicName" class="text-danger">
+                {{ validationErrors.topicName }}
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="inputDescricao" class="form-label">Descrição</label>
+              <label for="inputDescription" class="form-label">Descrição</label>
               <textarea
-                v-model="sinalDescricao"
+                v-model="topicDescription"
                 class="form-control border border-primary"
-                id="inputDescricao"
+                id="inputDescription"
                 rows="3"
                 placeholder="Digite uma descrição"
               ></textarea>
-              <div v-if="validationErrors.sinalDescricao" class="text-danger">
-                {{ validationErrors.sinalDescricao }}
+              <div v-if="validationErrors.topicDescription" class="text-danger">
+                {{ validationErrors.topicDescription }}
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="inputImagem" class="form-label"
+              <label for="inputImage" class="form-label"
                 >Imagem (PNG/SVG)</label
               >
               <input
                 @change="handleFileUpload"
                 type="file"
                 class="form-control border border-primary"
-                id="inputImagem"
+                id="inputImage"
                 accept=".svg, .png"
               />
               <div v-if="validationErrors.imageFile" class="text-danger">
@@ -69,14 +69,28 @@
                 >Vídeo (link do YouTube)</label
               >
               <input
-                v-model="sinalVideo"
+                v-model="topicVideo"
                 type="url"
                 class="form-control border border-primary"
                 id="inputVideo"
                 placeholder="Cole o link do vídeo do YouTube"
               />
-              <div v-if="validationErrors.sinalVideo" class="text-danger">
-                {{ validationErrors.sinalVideo }}
+              <div v-if="validationErrors.topicVideo" class="text-danger">
+                {{ validationErrors.topicVideo }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="inputComment" class="form-label">Comentário</label>
+              <input
+                v-model="topicComment"
+                type="text"
+                class="form-control border border-primary"
+                id="inputComment"
+                placeholder="Digite o comentário"
+              />
+              <div v-if="validationErrors.topicComment" class="text-danger">
+                {{ validationErrors.topicComment }}
               </div>
             </div>
           </div>
@@ -93,7 +107,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="handleAddNewSign"
+              @click="handleAddNewTopic"
             >
               <div
                 v-if="loading"
@@ -119,61 +133,54 @@ import { ref, onMounted, onUnmounted } from "vue";
 const modal = ref(null);
 const toast = ref(null);
 
-const sinalNome = ref("");
-const sinalDescricao = ref("");
+const topicName = ref("");
+const topicDescription = ref("");
+const topicVideo = ref("");
+const topicComment = ref("");
 const imageFile = ref("");
-const sinalVideo = ref("");
 
 const validationErrors = ref({
-  sinalNome: "",
-  sinalDescricao: "",
+  topicName: "",
+  topicDescription: "",
+  topicVideo: "",
+  topicComment: "",
   imageFile: "",
-  sinalVideo: "",
 });
 
-const { addNewSignToTopic, loading } = useTopicComposable();
+const { addNewTopicByCourseId, loading } = useTopicComposable();
 const modalStore = piniaModalStore();
-const emit = defineEmits(["fetchData"]);
-
-// Função para validar e formatar o link do YouTube
-const formatYouTubeLink = (url) => {
-  const youtubeRegex =
-    /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^/]+\/\S+\/|(?:v|e(?:mbed)?)\/)([a-zA-Z0-9_-]{11}))/;
-  const match = url.match(youtubeRegex);
-
-  if (match && match[1]) {
-    return `https://www.youtube.com/embed/${match[1]}`;
-  }
-  return null;
-};
+const emits = defineEmits(["fetchTopicsData"]);
 
 const validateFields = () => {
   let isValid = true;
   validationErrors.value = {
-    sinalNome: "",
-    sinalDescricao: "",
+    topicName: "",
+    topicDescription: "",
+    topicVideo: "",
+    topicComment: "",
     imageFile: "",
-    sinalVideo: "",
   };
 
-  if (!sinalNome.value.trim()) {
-    validationErrors.value.sinalNome = "O nome do sinal é obrigatório.";
+  if (!topicName.value.trim()) {
+    validationErrors.value.topicName = "O nome do tópico é obrigatório.";
     isValid = false;
   }
-  if (!sinalDescricao.value.trim()) {
-    validationErrors.value.sinalDescricao = "A descrição é obrigatória.";
+  if (!topicDescription.value.trim()) {
+    validationErrors.value.topicDescription = "A descrição é obrigatória.";
     isValid = false;
   }
-
-  // Validando o vídeo
-  const formattedVideo = formatYouTubeLink(sinalVideo.value);
-  if (!formattedVideo) {
-    validationErrors.value.sinalVideo = "Insira um link válido do YouTube.";
+  if (
+    !topicVideo.value.trim() ||
+    !/^https?:\/\/(www\.)?youtube\.com\/embed\/[\w-]+$/.test(topicVideo.value)
+  ) {
+    validationErrors.value.topicVideo =
+      "Insira um link válido no formato embed.";
     isValid = false;
-  } else {
-    sinalVideo.value = formattedVideo;
   }
-
+  if (!topicComment.value.trim()) {
+    validationErrors.value.topicComment = "O comentário é obrigatório.";
+    isValid = false;
+  }
   if (!imageFile.value) {
     validationErrors.value.imageFile = "Uma imagem (PNG/SVG) é obrigatória.";
     isValid = false;
@@ -182,32 +189,30 @@ const validateFields = () => {
   return isValid;
 };
 
-const handleAddNewSign = async () => {
+const handleAddNewTopic = async () => {
   if (!validateFields()) {
     return;
   }
 
   const body = {
-    name: sinalNome.value,
-    description: sinalDescricao.value,
-    urlImage: imageFile.value,
-    urlVideo: sinalVideo.value,
-    idTopic: modalStore.idTopic,
+    word: topicName.value,
+    description: topicDescription.value,
+    image: imageFile.value,
+    video: topicVideo.value,
+    comment: topicComment.value,
+    idCourse: modalStore.idCourse,
   };
 
-  await addNewSignToTopic(body, toast.value);
-  emit("fetchData");
+  await addNewTopicByCourseId(body, toast.value);
+  emits("fetchTopicsData");
   setTimeout(() => {
-    modal?.value.hide();
+    modal.value.hide();
   }, 500);
 };
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
-  if (
-    file &&
-    (file.type === "image/svg+xml" || file.type === "image/png+xml")
-  ) {
+  if (file && (file.type === "image/svg+xml" || file.type === "image/png")) {
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -216,14 +221,13 @@ const handleFileUpload = (event) => {
 
     reader.readAsDataURL(file);
   } else {
-    validationErrors.value.imageFile =
-      "Por favor, selecione apenas arquivos SVG.";
+    alert("Por favor, selecione apenas arquivos PNG ou SVG.");
     event.target.value = "";
   }
 };
 
 onMounted(() => {
-  const modalElement = document.getElementById("modalContent");
+  const modalElement = document.getElementById("modalLogin");
   if (modalElement) {
     modal.value = new Modal(modalElement);
   }
@@ -236,10 +240,11 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (modal) {
-    modal.value.dispose();
+    modal?.value.dispose();
   }
 });
 
+// Optional: Export methods to control the modal
 defineExpose({
   show: () => modal?.value.show(),
   hide: () => modal?.value.hide(),

@@ -12,6 +12,5 @@ const userStore = piniaUserStore()
 
 onMounted(() => {
   userStore.checkUserToken()
-  console.log(userStore.apiToken);
 })
 </script>

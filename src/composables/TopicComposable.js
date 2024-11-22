@@ -1,5 +1,5 @@
 
-export function useTopicoComposable() {
+export function useTopicComposable() {
     const loading = ref(false)
     const toastStore = piniaToastStore()
     const userStore = piniaUserStore()
@@ -24,7 +24,7 @@ export function useTopicoComposable() {
         }   
     }
 
-    async function fetchTopicContent(topicId, toast) {
+    async function fetchTopicContent(topicId) {
         loading.value = true
 
         try {
@@ -35,18 +35,12 @@ export function useTopicoComposable() {
 
             if (res) {
                 loading.value = false
-                console.log(res);
-                
-                toastStore.setToast('Conteúdos buscados com sucesso!', 'success')
-                toast.show()
                 return res
             }
 
             loading.value =  false
         } catch (e) {
             loading.value =  false
-            toastStore.setToast('Erro ao buscar conteúdos!', 'danger')
-            toast.show()
         }
     }
 
@@ -80,10 +74,33 @@ export function useTopicoComposable() {
         }
     }
 
+    async function addNewTopicByCourseId(bodyTopic, toast) {
+        if (userStore.apiToken) {
+            try {
+                await $fetch(`/topics`, {
+                    baseURL: useRuntimeConfig().public.backend_url,
+                    method: 'POST',
+                    body: bodyTopic,
+                    headers: {
+                        'Authorization': `Bearer ${userStore.apiToken}`
+                    }
+                })
+
+                toastStore.setToast("Novo tópico cadastrado!", 'success')
+                toast.show()
+            } catch (e) {
+                console.log(e)
+                toastStore.setToast("Erro ao cadastrar tópico!", 'danger')
+                toast.show()
+            }
+        }
+    }
+
     return {
         loading,
         fetchTopicsById,
         fetchTopicContent,
-        addNewSignToTopic
+        addNewSignToTopic,
+        addNewTopicByCourseId
     }
 }

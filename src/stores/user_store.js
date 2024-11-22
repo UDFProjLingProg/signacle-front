@@ -9,24 +9,15 @@ export const piniaUserStore = defineStore('piniaUser', {
         checkUserToken() {
             const localApiToken = localStorage.getItem('apiToken')
             const localLastLoginTime = localStorage.getItem('lastLoginTime')
-            console.log(typeof(localApiToken))
-            console.log(typeof(this.apiToken))
-            
 
             if (localApiToken != '' && localLastLoginTime != '') {
-                console.log("Passou da validação");
-                console.log(localApiToken);
-                console.log(localLastLoginTime);
                 const currentTime = Date.now()
                 const timeDifference = currentTime - parseInt(localLastLoginTime, 10)
 
                 if (timeDifference > 3 * 60 * 60 * 1000) {
-                    console.log("Logout");
                     this.logout()
                 }
-                else {
-                    console.log("Ta tudo certo");
-                    
+                else {               
                     this.apiToken = localApiToken
                 }
             }

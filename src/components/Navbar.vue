@@ -1,5 +1,5 @@
 <template>
-  <header class="header border-bottom border-white">
+  <header class="header">
     <nav class="navbar navbar-expand-lg">
       <div class="container header-container">
         <!-- Esquerda -->
@@ -19,36 +19,54 @@
         <!-- Direita -->
         <div class="header-right">
           <nuxt-link to="/">
-            <button class="btn btn-link text-white fw-bold" style="text-decoration: none;">Início</button>
+            <button
+              class="btn btn-link text-white fw-bold"
+              style="text-decoration: none"
+            >
+              Início
+            </button>
           </nuxt-link>
-          <button class="btn btn-link text-white fw-bold" style="text-decoration: none;" @click="navigateToSignacle">Signacle</button>
+          <button
+            class="btn btn-link text-white fw-bold"
+            style="text-decoration: none"
+            @click="navigateToSignacle"
+          >
+            Signacle
+          </button>
           <nuxt-link to="https://udf.edu.br">
-            <button class="btn btn-link text-white fw-bold" style="text-decoration: none;">Contato</button>
+            <button
+              class="btn btn-link text-white fw-bold"
+              style="text-decoration: none"
+            >
+              Contato
+            </button>
           </nuxt-link>
           <!-- Ícone de Login -->
           <button
             v-if="userStore.apiToken == null"
             type="button"
-            class="btn btn-link pl-2 text-white"
+            class="btn btn-icon pl-2 text-white"
             data-bs-toggle="modal"
             data-bs-target="#modalLogin"
           >
-            <i class="fas fa-user fs-4"></i>
+          <i class="bi bi-box-arrow-in-right fs-4"></i>
           </button>
           <button
-            @click="logout"
             v-else
             type="button"
-            class="btn btn-link pl-2 text-white"
+            class="btn btn-icon pl-2 text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#modalLoginInfo"
           >
-            <i class="bi bi-box-arrow-right fs-4"></i>
+            <i class="fas fa-user fs-4"></i>
           </button>
         </div>
       </div>
     </nav>
 
-    <ToastComponent v-if="toastIsVisible"/>
+    <ToastComponent v-if="toastIsVisible" />
     <ModalLogin />
+    <ModalLoginInfo />
   </header>
 </template>
 
@@ -56,7 +74,7 @@
 import { Toast } from "bootstrap";
 
 const userStore = piniaUserStore();
-const toastStore = piniaToastStore()
+const toastStore = piniaToastStore();
 const router = useRouter();
 
 const toast = ref(null);
@@ -70,21 +88,21 @@ onMounted(() => {
 });
 
 const navigateToSignacle = () => {
-  router.push("/cursos");
+  router.push("/signacle");
 };
 
 const logout = () => {
-  toastIsVisible.value = false
-  userStore.logout()
+  toastIsVisible.value = false;
+  userStore.logout();
 
   if (userStore.apiToken == null) {
-    toastStore.setToast("Você desconectou da conta", 'warning')
+    toastStore.setToast("Você desconectou da conta", "warning");
     if (toast) {
-      toastIsVisible.value = true
-      toast.value.show()
+      toastIsVisible.value = true;
+      toast.value.show();
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -114,7 +132,7 @@ const logout = () => {
 }
 
 .btn-link {
-   transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .btn-link:hover {

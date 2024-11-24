@@ -1,5 +1,5 @@
 <template>
-    <footer class="d-flex align-items-center justify-content-around  border-top border-white p-4">
+    <footer class="d-flex align-items-center justify-content-around p-4">
       <img :src="logoUdf" style="object-fit: contain; height: 80px">
       <img :src="logoSignacle" style="object-fit: contain; height: 80px">
 

@@ -8,7 +8,7 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content topic-background fw-semibold">
+        <div class="modal-content fw-semibold">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="labelModalTopic">Tópico</h1>
             <button
@@ -63,36 +63,6 @@
                 {{ validationErrors.imageFile }}
               </div>
             </div>
-
-            <div class="mb-3">
-              <label for="inputVideo" class="form-label"
-                >Vídeo (link do YouTube)</label
-              >
-              <input
-                v-model="topicVideo"
-                type="url"
-                class="form-control border border-primary"
-                id="inputVideo"
-                placeholder="Cole o link do vídeo do YouTube"
-              />
-              <div v-if="validationErrors.topicVideo" class="text-danger">
-                {{ validationErrors.topicVideo }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="inputComment" class="form-label">Comentário</label>
-              <input
-                v-model="topicComment"
-                type="text"
-                class="form-control border border-primary"
-                id="inputComment"
-                placeholder="Digite o comentário"
-              />
-              <div v-if="validationErrors.topicComment" class="text-danger">
-                {{ validationErrors.topicComment }}
-              </div>
-            </div>
           </div>
 
           <div class="modal-footer d-flex align-items-center">
@@ -133,10 +103,12 @@ import { ref, onMounted, onUnmounted } from "vue";
 const modal = ref(null);
 const toast = ref(null);
 
+const { addNewTopicByCourseId, loading } = useTopicComposable();
+const modalStore = piniaModalStore();
+const emits = defineEmits(["fetchTopicsData"]);
+
 const topicName = ref("");
 const topicDescription = ref("");
-const topicVideo = ref("");
-const topicComment = ref("");
 const imageFile = ref("");
 
 const validationErrors = ref({
@@ -147,17 +119,13 @@ const validationErrors = ref({
   imageFile: "",
 });
 
-const { addNewTopicByCourseId, loading } = useTopicComposable();
-const modalStore = piniaModalStore();
-const emits = defineEmits(["fetchTopicsData"]);
 
+// FUNÇÕES DA PÁGINA
 const validateFields = () => {
   let isValid = true;
   validationErrors.value = {
     topicName: "",
     topicDescription: "",
-    topicVideo: "",
-    topicComment: "",
     imageFile: "",
   };
 
@@ -167,18 +135,6 @@ const validateFields = () => {
   }
   if (!topicDescription.value.trim()) {
     validationErrors.value.topicDescription = "A descrição é obrigatória.";
-    isValid = false;
-  }
-  if (
-    !topicVideo.value.trim() ||
-    !/^https?:\/\/(www\.)?youtube\.com\/embed\/[\w-]+$/.test(topicVideo.value)
-  ) {
-    validationErrors.value.topicVideo =
-      "Insira um link válido no formato embed.";
-    isValid = false;
-  }
-  if (!topicComment.value.trim()) {
-    validationErrors.value.topicComment = "O comentário é obrigatório.";
     isValid = false;
   }
   if (!imageFile.value) {
@@ -198,8 +154,8 @@ const handleAddNewTopic = async () => {
     word: topicName.value,
     description: topicDescription.value,
     image: imageFile.value,
-    video: topicVideo.value,
-    comment: topicComment.value,
+    video: "",
+    comment: "",
     idCourse: modalStore.idCourse,
   };
 
@@ -212,7 +168,7 @@ const handleAddNewTopic = async () => {
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
-  if (file && (file.type === "image/svg+xml" || file.type === "image/png")) {
+  if (file && (file.type === "image/svg+xml" || file.type === "image/png+xml")) {
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -227,7 +183,7 @@ const handleFileUpload = (event) => {
 };
 
 onMounted(() => {
-  const modalElement = document.getElementById("modalLogin");
+  const modalElement = document.getElementById("modalTopic");
   if (modalElement) {
     modal.value = new Modal(modalElement);
   }

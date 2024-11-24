@@ -8,7 +8,7 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content topic-background fw-semibold">
+        <div class="modal-content fw-semibold">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="labelModalConteudo">Conteúdo</h1>
             <button

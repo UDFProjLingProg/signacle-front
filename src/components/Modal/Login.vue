@@ -53,7 +53,6 @@
 
 <script setup>
 import { Modal, Toast } from 'bootstrap'
-import { useModalComposable } from '~/composables/ModalLoginComposable';
 
 const modal = ref(null)
 const toast = ref(null)
@@ -62,6 +61,8 @@ const passwordError = ref(null)
 
 const {email, loading, password, login} = useModalComposable()
 
+
+//FUNÇÕES DA PÁGINA
 onMounted(() => {
     const modalElement = document.getElementById('modalLogin')
     if (modalElement) {

@@ -35,8 +35,26 @@ export function useManageComposable() {
         }
     } 
 
+    async function deleteSignById(id) {
+        if (userStore.apiToken) {
+            try {
+                await $fetch(`/sign/${id}`, {
+                    baseURL: useRuntimeConfig().public.backend_url,
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${userStore.apiToken}`,
+                    }
+                })
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
+    } 
+
     return {
         fetchAllCourses,
-        deleteTopicById
+        deleteTopicById,
+        deleteSignById
     }
 }

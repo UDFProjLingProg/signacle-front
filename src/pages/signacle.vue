@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between" style="background-color: #1250ac; min-height: 75vh">
       <div class="col-md-6">
         <div style="margin-top: 50px">
           <div
             class="container text-start d-flex flex-column align-items-center animated-content"
           >
-            <p
+            <h2
               class="ps-4 ms-4 fs-1"
               style="font-weight: 900; align-self: flex-start; color: #0db9fd"
             >
-              {{ currentContent?.title || 'Signacle'}}
-            </p>
+              {{ currentContent?.title || "Signacle" }}
+            </h2>
             <p
               class="ps-4 ms-4 mt-2 fs-6 text-white fw-semibold lh-sm"
               style="text-align: justify"
@@ -31,18 +31,25 @@
               complexos por estudantes universitários surdos e ouvintes usuários
               da Libras.
             </p>
-            <p v-else class="ps-4 ms-4 mt-2 fs-6 text-white fw-semibold lh-sm" style="text-align: justify">
+            <p
+              v-else
+              class="ps-4 ms-4 mt-2 fs-6 text-white fw-semibold lh-sm"
+              style="text-align: justify"
+            >
               {{ currentContent.text }}
             </p>
-            <button 
+            <button
               @click="navigateToTopics"
-              v-if="chooseContent" 
-              class="btn btn-primary btn-block rounded-pill px-4 py-3 fw-bold fs-5 border" 
+              v-if="chooseContent"
+              class="btn btn-primary btn-block rounded-pill px-4 py-3 fw-bold fs-5 border"
               :class="{
-                'my-4': chooseContent === true
-              }" 
+                'my-4': chooseContent === true,
+              }"
               style="align-self: flex-start; margin-left: 3rem"
-              type="button">Acessar repositório</button>
+              type="button"
+            >
+              Acessar repositório
+            </button>
             <div
               class="row row-cols-auto d-flex align-items-center justify-content-evenly w-100"
             >
@@ -60,7 +67,7 @@
       </div>
 
       <div class="col-sm-4">
-        <div class="custom-iframe" style="align-items: end; margin-top: 74px;">
+        <div class="custom-iframe" style="align-items: end; margin-top: 74px">
           <iframe
             src="https://www.youtube.com/embed/EZxkymw426U"
             title="Alfabeto de LIBRAS - COMPLETO E INESQUECÍVEL"
@@ -73,6 +80,7 @@
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -81,7 +89,7 @@ import tiLogo from "@/assets/images/svgs/ti.svg";
 import medVetLogo from "@/assets/images/svgs/medvet.svg";
 import nutriLogo from "@/assets/images/svgs/nutri.svg";
 import businessLogo from "@/assets/images/svgs/business.svg";
-import data from '@/assets/data/dummydata.js'
+import data from "@/assets/data/dummydata.js";
 
 import { Toast } from "bootstrap";
 
@@ -93,9 +101,9 @@ const cursosImages = [tiLogo, medVetLogo, nutriLogo, businessLogo];
 
 const toast = ref(null);
 const courses = ref([]);
-const chooseContent = ref(false)
-const currentContent = ref(null)
-const currentTopicId = ref(null)
+const chooseContent = ref(false);
+const currentContent = ref(null);
+const currentTopicId = ref(null);
 
 // Funções da página
 onMounted(async () => {
@@ -108,14 +116,14 @@ onMounted(async () => {
 });
 
 const changeTopic = (id, index) => {
-  chooseContent.value = true
-  currentContent.value = data[index]
-  currentTopicId.value = id
+  chooseContent.value = true;
+  currentContent.value = data[index];
+  currentTopicId.value = id;
 };
 
 const navigateToTopics = () => {
-  router.push(`/topicos/${currentTopicId.value}`)
-}
+  router.push(`/topicos/${currentTopicId.value}`);
+};
 
 useHead({
   title: "courses",
@@ -137,14 +145,14 @@ useHead({
 .curso-btn:not(:hover) {
   transform: scale(1);
   transition: all 0.5s ease;
-  box-shadow: 0
+  box-shadow: 0;
 }
 
 .curso-btn:focus {
   transition: all 0.5s ease;
   background-color: #0d6efd;
   transform: scale(1.2);
-  box-shadow: 0
+  box-shadow: 0;
 }
 
 .custom-iframe iframe {
@@ -155,5 +163,4 @@ useHead({
 .animated-content {
   transform: opacity 0.5s ease-in;
 }
-
 </style>

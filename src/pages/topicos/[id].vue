@@ -1,106 +1,109 @@
 <template>
   <div>
-    <div class="container py-4">
-      <button class="btn btn-outline-light mt-4" @click="navigateBack">
-        <i class="bi bi-arrow-left"></i>
-      </button>
+    <div style="background-color: #1250ac; min-height: 70vh">
+      <div class="container py-4">
+        <button class="btn btn-outline-light mt-4" @click="navigateBack">
+          <i class="bi bi-arrow-left"></i>
+        </button>
 
-      <button
-        v-if="userStore.apiToken"
-        class="btn btn-outline-light mt-4 ms-4"
-        @click="navigatoToManage"
-      >
-        <i class="bi bi-gear"></i>
-      </button>
-
-      <div class="mt-4 d-flex justify-content-between flex-wrap">
-        <div
-          class="accordion"
-          style="width: 28rem"
-          id="topicsAccordion"
-          v-if="topics.length"
+        <button
+          v-if="userStore.apiToken"
+          class="btn btn-outline-light mt-4 ms-4"
+          @click="navigatoToManage"
         >
-          <div class="accordion-item" v-for="(topic, i) in topics" :key="i">
-            <h2 class="accordion-header" :id="'heading' + i">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                :data-bs-target="'#collapse' + i"
-                aria-expanded="false"
-                :aria-controls="'collapse' + i"
-                @click="getContentFromTopic(topic)"
-              >
-                <div class="d-flex align-items-center">
-                  <div class="icon-container bg-secondary p-2 rounded me-3">
-                    <i class="bi bi-database text-white"></i>
+          <i class="bi bi-gear"></i>
+        </button>
+
+        <div class="mt-4 d-flex justify-content-between flex-wrap">
+          <div
+            class="accordion"
+            style="width: 28rem"
+            id="topicsAccordion"
+            v-if="topics.length"
+          >
+            <div class="accordion-item" v-for="(topic, i) in topics" :key="i">
+              <h2 class="accordion-header" :id="'heading' + i">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  :data-bs-target="'#collapse' + i"
+                  aria-expanded="false"
+                  :aria-controls="'collapse' + i"
+                  @click="getContentFromTopic(topic)"
+                >
+                  <div class="d-flex align-items-center">
+                    <div class="icon-container bg-secondary p-2 rounded me-3">
+                      <i class="bi bi-database text-white"></i>
+                    </div>
+                    <span class="fs-5">{{ topic.word }}</span>
                   </div>
-                  <span class="fs-5">{{ topic.word }}</span>
-                </div>
-              </button>
-            </h2>
-            <div
-              :id="'collapse' + i"
-              class="accordion-collapse collapse"
-              :aria-labelledby="'heading' + i"
-              data-bs-parent="#topicsAccordion"
-            >
-              <div class="accordion-body">
-                <div v-if="content.length">
-                  <ul class="list-group">
-                    <li
-                      class="list-group-item list-group-item-action"
-                      v-for="(content, cIndex) in content"
-                      :key="cIndex"
-                      @click="changeVideoContent(content.urlVideo)"
-                      style="cursor: pointer"
-                    >
-                      <div class="d-flex align-items-center">
-                        <img
-                          v-if="content.urlImage !== ''"
-                          :src="content.urlImage"
-                          alt=""
-                          height="30px"
-                          class="me-3"
-                        />
-                        <i v-else class="bi bi-filetype-sql me-3"></i>
-                        <span>{{ content.name }}</span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div v-else class="text-center">
-                  <small>Sem conteúdo disponível para este tópico.</small>
+                </button>
+              </h2>
+              <div
+                :id="'collapse' + i"
+                class="accordion-collapse collapse"
+                :aria-labelledby="'heading' + i"
+                data-bs-parent="#topicsAccordion"
+              >
+                <div class="accordion-body">
+                  <div v-if="content.length">
+                    <ul class="list-group">
+                      <li
+                        class="list-group-item list-group-item-action"
+                        v-for="(content, cIndex) in content"
+                        :key="cIndex"
+                        @click="changeVideoContent(content.urlVideo)"
+                        style="cursor: pointer"
+                      >
+                        <div class="d-flex align-items-center">
+                          <img
+                            v-if="content.urlImage !== ''"
+                            :src="content.urlImage"
+                            alt=""
+                            height="30px"
+                            class="me-3"
+                          />
+                          <i v-else class="bi bi-filetype-sql me-3"></i>
+                          <span>{{ content.name }}</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-else class="text-center">
+                    <small>Sem conteúdo disponível para este tópico.</small>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div v-if="loading" class="text-center mt-4" style="width: 100%">
-          <div class="spinner-grow text-white" role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div v-if="loading" class="text-center mt-4" style="width: 100%">
+            <div class="spinner-grow text-white" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div class="col-md-6" v-if="selectedVideo">
+            <div class="custom-iframe">
+              <iframe
+                :src="selectedVideo"
+                class="border"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-6" v-if="selectedVideo">
-          <div class="custom-iframe">
-            <iframe
-              :src="selectedVideo"
-              class="border"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-          </div>
+        <div v-if="!topics.length && !loading" class="text-center mt-4">
+          <div class="card text-center p-4">Não há dados para esse curso</div>
         </div>
       </div>
 
-      <div v-if="!topics.length && !loading" class="text-center mt-4">
-        <div class="card text-center p-4">Não há dados para esse curso</div>
-      </div>
+      <ToastComponent />
     </div>
-
-    <ToastComponent />
+    <Footer />
   </div>
 </template>
 
@@ -144,7 +147,7 @@ const changeVideoContent = (urlVideo) => {
 };
 
 const navigateBack = () => {
-  router.replace("/cursos");
+  router.replace("/signacle");
 };
 
 const navigatoToManage = () => {

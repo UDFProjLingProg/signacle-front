@@ -14,7 +14,10 @@ export const piniaUserStore = defineStore('piniaUser', {
                 const currentTime = Date.now()
                 const timeDifference = currentTime - parseInt(localLastLoginTime, 10)
 
-                if (timeDifference > 3 * 60 * 60 * 1000) {
+                console.log(localLastLoginTime);
+                console.log(typeof(localApiToken));
+                
+                if (timeDifference > 3 * 60 * 60 * 1000 || (localApiToken == "null" || timeDifference == null)) {
                     this.logout()
                 }
                 else {               

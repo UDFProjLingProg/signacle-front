@@ -12,9 +12,8 @@ export const piniaUserStore = defineStore('piniaUser', {
             const localLastLoginTime = localStorage.getItem('lastLoginTime')
             const jsonUser = localStorage.getItem('currentUserDetails')
             const localCurrentUserDetauls = JSON.parse(jsonUser)
-            
 
-            if (localApiToken != '' && localLastLoginTime != '' && localCurrentUserDetauls != '') {
+            if (localApiToken != '' && localLastLoginTime != '' && localCurrentUserDetauls) {
                 const currentTime = Date.now()
                 const timeDifference = currentTime - parseInt(localLastLoginTime, 10)
                 

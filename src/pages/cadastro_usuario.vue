@@ -41,6 +41,7 @@
               <label for="email" class="form-label fw-bold text-white">Email</label>
               <input
                 v-model="email"
+                readonly
                 type="email"
                 id="email"
                 class="form-control py-2"
@@ -86,24 +87,37 @@
 
 <script setup>
 const router = useRouter()
-const { signupNewUser } = useUsersComposable();
+const { signupNewUser, getUserDetailsByEmail } = useUsersComposable();
+const userStore = piniaUserStore()
+const route = useRoute()
+const userDetails = ref(null)
 
-// Campos do formulário
 const nome = ref("");
 const sobrenome = ref("");
-const email = ref("");
+const email = ref(route.query.email);
 const senha = ref("");
 
-// Mensagem de sucesso
-const successMessage = ref("");
-
-// Função de cadastro
-const registerUser = async () => {
-  // Validações adicionais podem ser feitas aqui
-  if (!nome.value || !sobrenome.value || !email.value || !senha.value) {
-    await signupNewUser;
-    router.replace('/')
-
+onMounted(async () => {
+  const body = {
+    email: email.value
   }
+  userDetails.value = await getUserDetailsByEmail(body)
+  console.log(userDetails);
+})
+
+const registerUser = async () => {
+  const body = {
+    id: userDetails.value.id,
+    firstName: nome.value,
+    lastName: sobrenome.value,
+    email: email.value,
+    password: senha.value
+  }
+    await signupNewUser(body);
+    userStore.currentUserDetails = await getUserDetailsByEmail(body)
+
+    setTimeout(() => {
+      router.replace('/')
+    }, 1000)
 };
 </script>

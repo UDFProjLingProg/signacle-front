@@ -2,7 +2,8 @@
 export const piniaUserStore = defineStore('piniaUser', {
     state: () => ({
         apiToken: null,
-        lastLoginTime: null
+        lastLoginTime: null,
+        currentUserDetails: {}
     }),
 
     actions: {

@@ -19,6 +19,7 @@
             />
             <button class="btn btn-success" @click="addUser">Adicionar</button>
           </div>
+          <div v-if="emailError" class="text-danger mt-1">{{ emailError }}</div>
         </div>
 
         <div class="list-group mb-4 mt-4" style="width: 50rem">
@@ -44,7 +45,8 @@ const { getUsers, inviteUserByEmail, deleteUserById } = useUsersComposable();
 
 const users = ref([]);
 const showInput = ref(false);
-const newUser = ref("");
+const email = ref("");
+const emailError = ref(null);
 
 // FUNÇÕES DA PÁGINA
 onMounted(async () => {
@@ -53,17 +55,26 @@ onMounted(async () => {
 
 const toggleInput = () => {
   showInput.value = !showInput.value;
-  newUser.value = "";
+  email.value = "";
 };
 
 const addUser = async () => {
-  if (newUser.value.trim()) {
-    const body = {
-      email: newUser.value,
-    };
-    await inviteUserByEmail(body);
+  if (email.value.trim()) {
+    emailError.value = null;
 
-    newUser.value = "";
+    if (!email.value) {
+      emailError.value = "O e-mail é obrigatório.";
+    } else if (!isValidEmail(email.value)) {
+      emailError.value = "Insira um e-mail válido.";
+    } else {
+      const body = {
+        email: email.value,
+      };
+      await inviteUserByEmail(body);
+    }
+
+
+    email.value = "";
     showInput.value = false;
   }
 };
@@ -71,6 +82,11 @@ const addUser = async () => {
 const removeUser = async (id) => {
   await deleteUserById(id);
   users.value = await getUsers();
+};
+
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };
 </script>
 

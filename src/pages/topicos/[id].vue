@@ -33,9 +33,8 @@
                   @click="getContentFromTopic(topic)"
                 >
                   <div class="d-flex align-items-center">
-                    <div class="icon-container bg-secondary p-2 rounded me-3">
-                      <i class="bi bi-database text-white"></i>
-                    </div>
+                    <img class="me-2" :src="topic.image" height="30" />
+
                     <span class="fs-5">{{ topic.word }}</span>
                   </div>
                 </button>

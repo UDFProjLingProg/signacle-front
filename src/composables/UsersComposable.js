@@ -40,6 +40,7 @@ export function useUsersComposable() {
             await $fetch('/auth/register', {
                 baseURL: useRuntimeConfig().public.backend_url,
                 method: 'POST',
+                body: body,
             })
         } catch (e) {
             console.log(e);
@@ -61,10 +62,29 @@ export function useUsersComposable() {
         }
     }
 
+    async function getUserDetailsByEmail(body) {
+        try {
+            const response = await $fetch('/users/public/email', {
+                baseURL: useRuntimeConfig().public.backend_url,
+                method: 'GET',
+                query: {
+                    email: body.email
+                }
+            })
+
+            if (response) {
+                return response
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return {
         getUsers,
         inviteUserByEmail,
         deleteUserById,
+        getUserDetailsByEmail,
         signupNewUser
     }
 }

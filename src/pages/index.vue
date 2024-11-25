@@ -21,7 +21,7 @@
             Signacle
           </h1>
           <br>
-          <p class="fs-4 fw-semibold lh-sm" style="width: 80%">
+          <p class="fs-5" style="width: 80%">
             Signacle é um inovador site de busca dedicado à Língua Brasileira de
             Sinais (Libras). Com o Signacle, é possível realizar a busca de
             palavras e traduções em qualquer lugar e em qualquer hora, tornando

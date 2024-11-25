@@ -12,33 +12,43 @@
           <!-- Nome -->
           <div style="width: 50rem">
             <div class="mb-3">
-              <label for="nome" class="form-label fw-bold text-white">Nome</label>
+              <label for="nome" class="form-label fw-bold text-white"
+                >Nome</label
+              >
               <input
                 v-model="nome"
                 type="text"
                 id="nome"
                 class="form-control py-2"
                 placeholder="Digite seu nome"
-                required
               />
+              <div v-if="validationErrors.nome" class="text-danger fw-bold">
+                {{ validationErrors.nome }}
+              </div>
             </div>
 
             <!-- Sobrenome -->
             <div class="mb-3">
-              <label for="sobrenome" class="form-label fw-bold text-white">Sobrenome</label>
+              <label for="sobrenome" class="form-label fw-bold text-white"
+                >Sobrenome</label
+              >
               <input
                 v-model="sobrenome"
                 type="text"
                 id="sobrenome"
                 class="form-control py-2"
                 placeholder="Digite seu sobrenome"
-                required
               />
+              <div v-if="validationErrors.sobrenome" class="text-danger">
+                {{ validationErrors.sobrenome }}
+              </div>
             </div>
 
             <!-- Email -->
             <div class="mb-3">
-              <label for="email" class="form-label fw-bold text-white">Email</label>
+              <label for="email" class="form-label fw-bold text-white"
+                >Email</label
+              >
               <input
                 v-model="email"
                 readonly
@@ -46,22 +56,25 @@
                 id="email"
                 class="form-control py-2"
                 placeholder="Digite seu email"
-                required
               />
             </div>
 
             <!-- Senha -->
             <div class="mb-3">
-              <label for="senha" class="form-label fw-bold text-white">Senha</label>
+              <label for="senha" class="form-label fw-bold text-white"
+                >Senha</label
+              >
               <input
                 v-model="senha"
                 type="password"
                 id="senha"
                 class="form-control py-2"
                 placeholder="Digite sua senha"
-                required
                 minlength="6"
               />
+              <div v-if="validationErrors.senha" class="text-danger">
+                {{ validationErrors.senha }}
+              </div>
             </div>
 
             <!-- Botão de Cadastro -->
@@ -71,53 +84,92 @@
           </div>
         </form>
 
-        <!-- Mensagem de Sucesso -->
-        <div
-          v-if="successMessage"
-          class="alert alert-success mt-3"
-          role="alert"
-        >
-          {{ successMessage }}
-        </div>
       </div>
     </div>
+    <ToastComponent />
     <Footer />
   </div>
 </template>
 
 <script setup>
-const router = useRouter()
+import { Toast } from 'bootstrap'
+
+const router = useRouter();
 const { signupNewUser, getUserDetailsByEmail } = useUsersComposable();
-const userStore = piniaUserStore()
-const route = useRoute()
-const userDetails = ref(null)
+const userStore = piniaUserStore();
+const toastStore = piniaToastStore()
+const route = useRoute();
+const userDetails = ref(null);
 
 const nome = ref("");
 const sobrenome = ref("");
 const email = ref(route.query.email);
 const senha = ref("");
+const toast = ref(null)
+
+const validationErrors = ref({
+  nome: "",
+  sobrenome: "",
+  senha: "",
+});
 
 onMounted(async () => {
   const body = {
-    email: email.value
+    email: email.value,
+  };
+  userDetails.value = await getUserDetailsByEmail(body);
+
+  const toastElement = document.getElementById('liveToast')
+  if (toastElement) {
+    toast.value = new Toast(toastElement)
   }
-  userDetails.value = await getUserDetailsByEmail(body)
-  console.log(userDetails);
-})
+});
+
+const validateFields = () => {
+  let isValid = true;
+  validationErrors.value = {
+    nome: "",
+    sobrenome: "",
+    senha: "",
+  };
+
+  if (nome.value.trim() == "") {
+    validationErrors.value.nome = "O nome do usuário é obrigatório.";
+    isValid = false;
+  }
+
+  if (sobrenome.value.trim() == "") {
+    validationErrors.value.sobrenome = "O sobrenome do usuário é obrigatório."
+    isValid = false
+  }
+
+  if (senha.value.trim() == "") {
+    validationErrors.value.senha = "Senha é obrigatória"
+    isValid = false
+  }
+
+  return isValid;
+}
 
 const registerUser = async () => {
-  const body = {
-    id: userDetails.value.id,
-    firstName: nome.value,
-    lastName: sobrenome.value,
-    email: email.value,
-    password: senha.value
-  }
-    await signupNewUser(body);
-    userStore.currentUserDetails = await getUserDetailsByEmail(body)
-
+  if (!validateFields()) {
+    return
+  } else {
+    const body = {
+      id: userDetails.value.id,
+      firstName: nome.value,
+      lastName: sobrenome.value,
+      email: email.value,
+      password: senha.value,
+    };
+    
+    await signupNewUser(body, toastStore);
+    toast.show()
+    userStore.currentUserDetails = await getUserDetailsByEmail(body);
+    
     setTimeout(() => {
       router.replace('/')
     }, 1000)
+  }
 };
 </script>

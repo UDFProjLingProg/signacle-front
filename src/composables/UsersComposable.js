@@ -35,13 +35,15 @@ export function useUsersComposable() {
         }
     } 
 
-    async function signupNewUser(body) {
+    async function signupNewUser(body, toast, toastStore) {
         try {
             await $fetch('/auth/register', {
                 baseURL: useRuntimeConfig().public.backend_url,
                 method: 'POST',
                 body: body,
             })
+
+            toastStore.setToast('Usuário criado com sucesso! Redirecionando...', 'success')
         } catch (e) {
             console.log(e);
         }

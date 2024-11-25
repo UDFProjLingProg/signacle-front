@@ -2,6 +2,8 @@ export const piniaModalStore = defineStore('modalStore', {
     state: () => ({
         idTopic: '',
         idCourse: '',
+        editContent: {},
+        editTopic: {}
     }),
 
     actions: {
@@ -13,9 +15,22 @@ export const piniaModalStore = defineStore('modalStore', {
             this.idCourse = id
         },
 
-        clearIds() {
+        setEditContent(content, idTopic) {
+            this.editContent = {
+                idTopic: idTopic,
+                ...content
+            }
+        },
+
+        setEditTopic(topic) {
+            this.editTopic = topic
+        },
+
+        clearAll() {
             this.idCourse = '',
-            this.idTopic = ''
+            this.idTopic = '',
+            this.editTopic = {},
+            this.editContent = {}
         }
     }
 }) 

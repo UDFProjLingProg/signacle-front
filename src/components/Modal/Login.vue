@@ -60,7 +60,8 @@ const emailError = ref(null)
 const passwordError = ref(null)
 
 const {email, loading, password, login} = useModalComposable()
-
+const { getUserDetailsByEmail } = useUsersComposable()
+const userStore = piniaUserStore()
 
 //FUNÇÕES DA PÁGINA
 onMounted(() => {
@@ -81,7 +82,7 @@ onUnmounted(() => {
     }
 })
 
-const validateAndLogin = () => {
+const validateAndLogin = async () => {
   emailError.value = null
   passwordError.value = null
 
@@ -96,7 +97,10 @@ const validateAndLogin = () => {
   }
 
   if (!emailError.value && !passwordError.value) {    
-    login(email.value, password.value, toast.value)
+    const currentUserDetails = await getUserDetailsByEmail({
+      email: email.value
+    })
+    await login(email.value, password.value, toast.value, currentUserDetails)
   }
 
   setTimeout(() => {

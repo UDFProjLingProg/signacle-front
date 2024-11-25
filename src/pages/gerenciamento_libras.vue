@@ -1,22 +1,22 @@
 <template>
   <div>
-    <!-- Cabeçalho com fundo azul -->
+
     <div style="background-color: #1250ac; min-height: 75vh">
       <div class="container pb-5">
-        <!-- Botão de voltar -->
+
         <button class="btn btn-outline-light mt-4" @click="navigateBack">
           <i class="bi bi-arrow-left"></i>
         </button>
 
-        <!-- Accordion principal -->
+
         <div class="d-flex align-items-center justify-content-center mt-4">
           <div style="width: 80%">
             <div class="accordion" id="accordionCursos">
-              <!-- Mensagem caso não tenha cursos -->
+
               <template v-if="data.length === 0">
                 <div class="text-center p-4">Não há cursos disponíveis</div>
               </template>
-              <!-- Cursos disponíveis -->
+
               <template v-else>
                 <div
                   v-for="(curso, cursoIndex) in data"
@@ -50,7 +50,7 @@
                     data-bs-parent="#accordionCursos"
                   >
                     <div class="accordion-body">
-                      <!-- Accordion de tópicos -->
+
                       <div :id="`accordionTopicos${cursoIndex}`" class="accordion">
                         <template v-if="!curso.topic || curso.topic.length === 0">
                           <div class="text-center p-4">
@@ -76,7 +76,7 @@
                                 :aria-controls="`collapseTopico${cursoIndex}-${topicoIndex}`"
                               >
                                 <span class="me-auto">{{ topico.word }}</span>
-                                <!-- Botões de ações -->
+
                                 <div style="align-self: flex-end">
                                   <button
                                     class="btn btn-outline-secondary btn-sm me-2"
@@ -87,6 +87,7 @@
                                     <i class="bi bi-plus-lg"></i>
                                   </button>
                                   <button
+                                    @click="editTopicSave(topico)"
                                     class="btn btn-outline-success btn-sm me-2"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalEditTopic"
@@ -109,7 +110,7 @@
                               :data-bs-parent="`#accordionTopicos${cursoIndex}`"
                             >
                               <div class="accordion-body">
-                                <!-- Sinais para a matéria -->
+
                                 <div
                                   v-if="!topico.libra || topico.libra.length === 0"
                                   class="text-center p-2"
@@ -125,6 +126,7 @@
                                     {{ materia.name }}
                                     <div>
                                       <button
+                                        @click="editContentSave(materia, topico.id)"
                                         class="btn btn-outline-success btn-sm me-2"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modalEditContent"
@@ -156,8 +158,8 @@
         <!-- Modais -->
         <ModalTopic @fetchTopicsData="fetchDataAfterEmit" />
         <ModalContent @fetch-data="fetchDataAfterEmit" />
-        <ModalEditContent />
-        <ModalEditTopic />
+        <ModalEditContent @fetch-data-after-put="fetchDataAfterEmit"/>
+        <ModalEditTopic @fetch-topics-data-after-put="fetchDataAfterEmit"/>
       </div>
     </div>
     <!-- Rodapé -->
@@ -193,11 +195,18 @@ const deleteSign = async (id) => {
   data.value = await fetchAllCourses();
 }
 
+const editContentSave = (content, idTopico) => {
+  modalStore.setEditContent(content, idTopico)
+}
+
+const editTopicSave = (topic) => {
+  modalStore.setEditTopic(topic)
+}
+
 const fetchDataAfterEmit = async () => {
   data.value = await fetchAllCourses();
 };
 
-// Ciclo de vida
 onMounted(() => {
   const script = document.createElement("script");
   script.src =

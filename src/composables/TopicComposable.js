@@ -96,11 +96,43 @@ export function useTopicComposable() {
         }
     }
 
+    async function editTopic(body) {
+        try {
+            await $fetch('/topics', {
+                baseURL: useRuntimeConfig().public.backend_url,
+                method: 'PUT',
+                body: body,
+                headers: {
+                    'Authorization': `Bearer ${userStore.apiToken}`
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function editContent(body) {
+        try {
+            await $fetch('/sign', {
+                baseURL: useRuntimeConfig().public.backend_url,
+                method: 'PUT',
+                body: body,
+                headers: {
+                    'Authorization': `Bearer ${userStore.apiToken}`
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return {
         loading,
         fetchTopicsById,
         fetchTopicContent,
         addNewSignToTopic,
-        addNewTopicByCourseId
+        addNewTopicByCourseId,
+        editContent,
+        editTopic
     }
 }

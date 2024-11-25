@@ -95,7 +95,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="handleAddNewSign"
+              @click="handleEditContent"
             >
               <div
                 v-if="loading"
@@ -116,7 +116,6 @@
 
 <script setup>
 import { Modal, Toast } from "bootstrap";
-import { ref, onMounted, onUnmounted } from "vue";
 
 const modal = ref(null);
 const toast = ref(null);
@@ -133,9 +132,9 @@ const validationErrors = ref({
   sinalVideo: "",
 });
 
-const { addNewSignToTopic, loading } = useTopicComposable();
+const { editContent, loading } = useTopicComposable();
 const modalStore = piniaModalStore();
-const emit = defineEmits(["fetchData"]);
+const emit = defineEmits(["fetchDataAfterPut"]);
 
 // Função para validar e formatar o link do YouTube
 const formatYouTubeLink = (url) => {
@@ -183,24 +182,22 @@ const validateFields = () => {
   return isValid;
 };
 
-const handleAddNewSign = async () => {
+const handleEditContent = async () => {
   if (!validateFields()) {
     return;
   }
 
   const body = {
+    ...modalStore.editContent,
     name: sinalNome.value,
     description: sinalDescricao.value,
     urlImage: imageFile.value,
     urlVideo: sinalVideo.value,
-    idTopic: modalStore.idTopic,
   };
 
-  await addNewSignToTopic(body, toast.value);
-  emit("fetchData");
-  setTimeout(() => {
-    modal?.value.hide();
-  }, 500);
+  await editContent(body);
+  emit("fetchDataAfterPut");
+  modal.value.hide()
 };
 
 const handleFileUpload = (event) => {

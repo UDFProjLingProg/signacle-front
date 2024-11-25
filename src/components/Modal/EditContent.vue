@@ -10,7 +10,9 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content fw-semibold">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="labelModalEditContent">Conteúdo</h1>
+            <h1 class="modal-title fs-5" id="labelModalEditContent">
+              Conteúdo
+            </h1>
             <button
               type="button"
               class="btn-close"
@@ -137,14 +139,13 @@ const emit = defineEmits(["fetchData"]);
 
 // Função para validar e formatar o link do YouTube
 const formatYouTubeLink = (url) => {
-  const youtubeRegex =
-    /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^/]+\/\S+\/|(?:v|e(?:mbed)?)\/)([a-zA-Z0-9_-]{11}))/;
-  const match = url.match(youtubeRegex);
-
-  if (match && match[1]) {
-    return `https://www.youtube.com/embed/${match[1]}`;
+  let videoUrl = "";
+  const youtubeLinkParam = new URLSearchParams(new URL(url).search).get("v");
+  if (youtubeLinkParam) {
+    videoUrl = "https://www.youtube.com/embed/" + youtubeLinkParam;
   }
-  return null;
+
+  return videoUrl ?? null;
 };
 
 const validateFields = () => {

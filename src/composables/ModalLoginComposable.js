@@ -5,7 +5,7 @@ export function useModalComposable() {
     const userStore = piniaUserStore()
     const toastStore = piniaToastStore()
 
-    async function login(userEmail, userPassword, toast) {
+    async function login(userEmail, userPassword, toast, userDetails) {
         try {
             loading.value = true
         
@@ -22,7 +22,7 @@ export function useModalComposable() {
     
             if (res.token) {
                 toastStore.setToast("Login realizado com sucesso!", 'success')
-                userStore.saveUserToken(res.token)
+                userStore.saveUserToken(res.token, userDetails)
                 toast.show()
             }
 

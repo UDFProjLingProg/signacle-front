@@ -77,7 +77,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="handleAddNewTopic"
+              @click="handleEditTopic"
             >
               <div
                 v-if="loading"
@@ -98,13 +98,17 @@
 
 <script setup>
 import { Modal, Toast } from "bootstrap";
-import { ref, onMounted, onUnmounted } from "vue";
+
+const modalStore = piniaModalStore();
+const { loading, editTopic } = useTopicComposable();
+const emits = defineEmits(["fetchTopicsDataAfterPut"]);
+
 
 const modal = ref(null);
 const toast = ref(null);
 
-const topicName = ref("");
-const topicDescription = ref("");
+const topicName = ref(modalStore.editTopic.word);
+const topicDescription = ref(modalStore.editTopic.description);
 const imageFile = ref("");
 
 const validationErrors = ref({
@@ -115,10 +119,7 @@ const validationErrors = ref({
   imageFile: "",
 });
 
-const { addNewTopicByCourseId, loading } = useTopicComposable();
-const modalStore = piniaModalStore();
-const emits = defineEmits(["fetchTopicsData"]);
-
+// FUNÇÕES DA PÁGINA
 const validateFields = () => {
   let isValid = true;
   validationErrors.value = {
@@ -143,25 +144,21 @@ const validateFields = () => {
   return isValid;
 };
 
-const handleAddNewTopic = async () => {
+const handleEditTopic = async () => {
   if (!validateFields()) {
     return;
   }
 
   const body = {
+    ...modalStore.editTopic,
     word: topicName.value,
     description: topicDescription.value,
-    image: imageFile.value,
-    video: null,
-    comment: null,
-    idCourse: modalStore.idCourse,
+    image: imageFile.value
   };
 
-  await addNewTopicByCourseId(body, toast.value);
-  emits("fetchTopicsData");
-  setTimeout(() => {
-    modal.value.hide();
-  }, 500);
+  await editTopic(body);
+  emits("fetchTopicsDataAfterPut");
+  modal?.value.hide()
 };
 
 const handleFileUpload = (event) => {

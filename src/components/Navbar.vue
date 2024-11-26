@@ -5,7 +5,7 @@
         <!-- Esquerda -->
         <div class="header-left">
           <img src="/assets/images/udf-logo.png" alt="" height="60" />
-          <img src="/assets/images/logo-signacle.png" alt="" height="60" />
+          <img src="/assets/images/signacle-logo.png" alt="" height="60" class="ms-4" />
           <!--
           <img
             src="https://www.udf.edu.br/wp-content/themes/cruzeiroportais2019/assets/imagens/svg-icon-contraste.svg"

@@ -14,7 +14,7 @@
             <input 
               type="email" 
               placeholder="E-mail" 
-              class="form-control border" 
+              class="form-control border mt-2" 
               :class="{'border-danger': emailError}" 
               v-model="email"
             />
@@ -24,7 +24,7 @@
             <input 
               type="password" 
               placeholder="Senha" 
-              class="form-control border" 
+              class="form-control border mt-2"
               :class="{'border-danger': passwordError}" 
               v-model="password"
             />

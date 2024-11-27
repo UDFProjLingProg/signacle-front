@@ -21,7 +21,7 @@ export function useUsersComposable() {
         }
     }
 
-    async function inviteUserByEmail(body, toast) {
+    async function inviteUserByEmail(body, toast, store) {
         try {
             await $fetch('/auth/register-user', {
                 baseURL: useRuntimeConfig().public.backend_url,
@@ -32,10 +32,10 @@ export function useUsersComposable() {
                 }
             })
 
-            toastStore.setToast("Usuário convidado!", 'success')
+            store.setToast("Usuário convidado!", 'success')
             toast.show()
         } catch (e) {
-            toastStore.setToast("Erro ao convidar usuário", 'danger')
+            store.setToast("Erro ao convidar usuário", 'danger')
             toast.show()
         }
     } 
@@ -49,6 +49,7 @@ export function useUsersComposable() {
             })
 
             toastStore.setToast('Usuário criado com sucesso! Redirecionando...', 'success')
+            toast.show()
         } catch (e) {
             console.log(e);
         }

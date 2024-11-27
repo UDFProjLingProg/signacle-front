@@ -123,6 +123,8 @@ onMounted(async () => {
   if (toastElement) {
     toast.value = new Toast(toastElement)
   }
+
+  userStore.logout()
 });
 
 const validateFields = () => {
@@ -163,8 +165,7 @@ const registerUser = async () => {
       password: senha.value,
     };
     
-    await signupNewUser(body, toastStore);
-    toast.show()
+    await signupNewUser(body, toast.value, toastStore);
     userStore.currentUserDetails = await getUserDetailsByEmail(body);
     router.replace('/')
   }

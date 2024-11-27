@@ -1,0 +1,37 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Decode SSL Certificates
+      run: |
+        echo "${{ secrets.SSL_FULLCHAIN }}" | base64 --decode > fullchain.pem
+        echo "${{ secrets.SSL_PRIVKEY }}" | base64 --decode > privkey.pem
+    
+    - name: Build and push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: signacleudf/signacle-web
+        registry: docker.io
+        tags: latest
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        build-args: |
+          SSL_FULLCHAIN=fullchain.pem
+          SSL_PRIVKEY=privkey.pem
+

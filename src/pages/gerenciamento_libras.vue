@@ -168,7 +168,7 @@
 </template>
 
 <script setup>
-import { Modal } from "bootstrap";
+import { Modal, Toast } from "bootstrap";
 
 const router = useRouter();
 const { fetchAllCourses, deleteTopicById, deleteSignById } = useManageComposable();
@@ -179,6 +179,7 @@ const modalTopic = ref(null);
 const modalContent = ref(null);
 const modalEditContent = ref(null);
 const modalEditTopic = ref(null);
+const toast = ref(null)
 
 // FUNÇÕES DA PÁGINA
 const navigateBack = () => router.back();
@@ -186,12 +187,12 @@ const addSign = (topico) => modalStore.saveIdTopic(topico.id);
 const addTopic = (curso) => modalStore.saveIdCourse(curso.id);
 
 const deleteTopic = async (id) => {
-  await deleteTopicById(id);
+  await deleteTopicById(id, toast.value);
   data.value = await fetchAllCourses() 
 }
 
 const deleteSign = async (id) => {
-  await deleteSignById(id)
+  await deleteSignById(id, toast.value)
   data.value = await fetchAllCourses();
 }
 
@@ -212,6 +213,8 @@ onMounted(() => {
   script.src =
     "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
   document.body.appendChild(script);
+
+  toast.value = new Toast(document.getElementById("liveToast"))
 
   modalTopic.value = new Modal(document.getElementById("modalTopic"));
   modalContent.value = new Modal(document.getElementById("modalContent"));

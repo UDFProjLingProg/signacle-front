@@ -160,15 +160,19 @@ const handleAddNewTopic = async () => {
   };
 
   await addNewTopicByCourseId(body, toast.value);
+  cleanFields()
   emits("fetchTopicsData");
-  setTimeout(() => {
-    modal.value.hide();
-  }, 500);
 };
+
+const cleanFields = () => {
+  topicName.value = ""
+  topicDescription.value = ""
+  imageFile.value = ""
+}
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
-  if (file && (file.type === "image/svg+xml" || file.type === "image/png+xml")) {
+  if (file && (file.type === "image/svg+xml" || file.type === "image/png")) {
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -177,7 +181,6 @@ const handleFileUpload = (event) => {
 
     reader.readAsDataURL(file);
   } else {
-    alert("Por favor, selecione apenas arquivos PNG ou SVG.");
     event.target.value = "";
   }
 };

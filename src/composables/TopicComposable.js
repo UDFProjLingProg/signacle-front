@@ -49,7 +49,7 @@ export function useTopicComposable() {
         const userToken = userStore.apiToken
 
         try {
-            const res = await $fetch('/sign', {
+            await $fetch('/sign', {
                 baseURL: useRuntimeConfig().public.backend_url,
                 method: 'POST',
                 headers: {
@@ -57,17 +57,11 @@ export function useTopicComposable() {
                 },
                 body: signBody
             })
-
-            if (res) {
-                loading.value = false
-                toastStore.setToast('Conteúdo adicionado com sucesso!', 'success')
-                toast.show()
-            }
-            
+            toastStore.setToast('Conteúdo adicionado com sucesso!', 'success')
+            toast.show()
             loading.value =  false
+
         } catch (e) {
-            console.log(e);
-            
             loading.value =  false
             toastStore.setToast('Erro ao adicionar conteúdo!', 'danger')
             toast.show()

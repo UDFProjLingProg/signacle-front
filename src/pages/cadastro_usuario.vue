@@ -166,10 +166,7 @@ const registerUser = async () => {
     await signupNewUser(body, toastStore);
     toast.show()
     userStore.currentUserDetails = await getUserDetailsByEmail(body);
-    
-    setTimeout(() => {
-      router.replace('/')
-    }, 1000)
+    router.replace('/')
   }
 };
 </script>

@@ -12,7 +12,7 @@
         <div v-if="showInput" class="mt-3" style="width: 50rem">
           <div class="input-group">
             <input
-              v-model="newUser"
+              v-model="email"
               type="email"
               class="form-control"
               placeholder="Digite email de um novo usuário"
@@ -41,16 +41,23 @@
 </template>
 
 <script setup>
+import { Toast } from 'bootstrap'
 const { getUsers, inviteUserByEmail, deleteUserById } = useUsersComposable();
 
 const users = ref([]);
 const showInput = ref(false);
 const email = ref("");
 const emailError = ref(null);
+const toast = ref(null)
 
 // FUNÇÕES DA PÁGINA
 onMounted(async () => {
   users.value = await getUsers();
+
+  const toastElement = document.getElementById('liveToast')
+  if (toastElement) {
+    toast.value = new Toast(toastElement)
+  }
 });
 
 const toggleInput = () => {
@@ -70,12 +77,10 @@ const addUser = async () => {
       const body = {
         email: email.value,
       };
-      await inviteUserByEmail(body);
+      await inviteUserByEmail(body, toast.value);
+      showInput.value = !showInput.value;
+      email.value = "";
     }
-
-
-    email.value = "";
-    showInput.value = false;
   }
 };
 

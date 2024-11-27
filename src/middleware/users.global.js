@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
     const userStore = piniaUserStore()
-
-    if (to.path === '/gerenciamento_libras' && userStore.apiToken == '') {
+    
+    if (to.path === '/usuarios' && userStore.apiToken == "") {
         return navigateTo('/')
     }
 })

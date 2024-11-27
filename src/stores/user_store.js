@@ -1,29 +1,35 @@
 
 export const piniaUserStore = defineStore('piniaUser', {
     state: () => ({
-        apiToken: null,
+        apiToken: '',
         lastLoginTime: null,
         currentUserDetails: {}
     }),
 
     actions: {
         checkUserToken() {
-            const localApiToken = localStorage.getItem('apiToken')
-            const localLastLoginTime = localStorage.getItem('lastLoginTime')
-            const jsonUser = localStorage.getItem('currentUserDetails')
-            const localCurrentUserDetauls = JSON.parse(jsonUser)
-
-            if (localApiToken != '' && localLastLoginTime != '' && localCurrentUserDetauls) {
-                const currentTime = Date.now()
-                const timeDifference = currentTime - parseInt(localLastLoginTime, 10)
-                
-                if (timeDifference > 3 * 60 * 60 * 1000 || (localApiToken == "null" || timeDifference == null)) {
-                    this.logout()
+            try {
+                const localApiToken = localStorage.getItem('apiToken')
+                const localLastLoginTime = localStorage.getItem('lastLoginTime')
+                const jsonUser = localStorage.getItem('currentUserDetails')
+                const localCurrentUserDetauls = JSON.parse(jsonUser)
+    
+                if (localApiToken != '' && localLastLoginTime != '' && localCurrentUserDetauls) {
+                    const currentTime = Date.now()
+                    const timeDifference = currentTime - parseInt(localLastLoginTime, 10)
+                    
+                    if (timeDifference > 3 * 60 * 60 * 1000 || (localApiToken == "null" || timeDifference == null)) {
+                        this.logout()
+                    }
+                    else {               
+                        this.apiToken = localApiToken
+                        this.currentUserDetails = localCurrentUserDetauls
+                    }
                 }
-                else {               
-                    this.apiToken = localApiToken
-                    this.currentUserDetails = localCurrentUserDetauls
-                }
+            }
+            catch (e) {
+                console.log(e);
+                this.logout()
             }
         },
 

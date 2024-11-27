@@ -132,6 +132,7 @@ onMounted(async () => {
 });
 
 const getContentFromTopic = async (topic) => {
+  closeSelectedVideo()
   const topicId = topic.id;
   const response = await fetchTopicContent(topicId);
 
@@ -152,6 +153,8 @@ const navigateBack = () => {
 const navigatoToManage = () => {
   router.push("/gerenciamento_libras");
 };
+
+const closeSelectedVideo = () => selectedVideo.value = null
 </script>
 
 <style>

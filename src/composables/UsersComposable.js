@@ -1,6 +1,7 @@
 
 export function useUsersComposable() {
     const userStore = piniaUserStore()
+    const toastStore = piniaToastStore()
 
     async function getUsers() {
         try {
@@ -20,7 +21,7 @@ export function useUsersComposable() {
         }
     }
 
-    async function inviteUserByEmail(body) {
+    async function inviteUserByEmail(body, toast) {
         try {
             await $fetch('/auth/register-user', {
                 baseURL: useRuntimeConfig().public.backend_url,
@@ -30,8 +31,12 @@ export function useUsersComposable() {
                     'Authorization': `Bearer ${userStore.apiToken}`
                 }
             })
+
+            toastStore.setToast("Usuário convidado!", 'success')
+            toast.show()
         } catch (e) {
-            console.log(e);
+            toastStore.setToast("Erro ao convidar usuário", 'danger')
+            toast.show()
         }
     } 
 

@@ -114,7 +114,6 @@
 
 <script setup>
 import { Modal, Toast } from "bootstrap";
-import { ref, onMounted, onUnmounted } from "vue";
 
 const modal = ref(null);
 const toast = ref(null);
@@ -195,17 +194,22 @@ const handleAddNewSign = async () => {
   };
 
   await addNewSignToTopic(body, toast.value);
+  cleanFields()
   emit("fetchData");
-  setTimeout(() => {
-    modal?.value.hide();
-  }, 500);
 };
+
+const cleanFields = () => {
+  sinalNome.value = ""
+  sinalDescricao.value = ""
+  sinalVideo.value = ""
+  imageFile.value = ""
+}
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (
     file &&
-    (file.type === "image/svg+xml" || file.type === "image/png+xml")
+    (file.type === "image/svg+xml" || file.type === "image/png")
   ) {
     const reader = new FileReader();
 

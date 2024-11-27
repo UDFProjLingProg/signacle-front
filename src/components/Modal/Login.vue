@@ -116,7 +116,7 @@ const isValidEmail = (email) => {
 
 // Optional: Export methods to control the modal
 defineExpose({
-    show: () => modal?.show(),
-    hide: () => modal?.hide()
+    show: () => modal?.value.show(),
+    hide: () => modal?.value.hide()
 })
 </script>

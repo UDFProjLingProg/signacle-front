@@ -1,6 +1,7 @@
 
 export function useManageComposable() {
     const userStore = piniaUserStore()
+    const toastStore = piniaToastStore()
 
     async function fetchAllCourses() {
         try {
@@ -18,7 +19,7 @@ export function useManageComposable() {
         }
     }
 
-    async function deleteTopicById(id) {
+    async function deleteTopicById(id, toast) {
         if (userStore.apiToken) {
             try {
                 await $fetch(`/topics/${id}`, {
@@ -28,6 +29,9 @@ export function useManageComposable() {
                         'Authorization': `Bearer ${userStore.apiToken}`,
                     }
                 })
+
+                toastStore.setToast('Tópico deletado!', 'warning')
+                toast.show()
             }
             catch(e) {
                 console.log(e);
@@ -35,7 +39,7 @@ export function useManageComposable() {
         }
     } 
 
-    async function deleteSignById(id) {
+    async function deleteSignById(id, toast) {
         if (userStore.apiToken) {
             try {
                 await $fetch(`/sign/${id}`, {
@@ -45,6 +49,9 @@ export function useManageComposable() {
                         'Authorization': `Bearer ${userStore.apiToken}`,
                     }
                 })
+
+                toastStore.setToast('Conteúdo deletado!', 'warning')
+                toast.show()
             }
             catch(e) {
                 console.log(e);

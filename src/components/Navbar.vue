@@ -91,18 +91,6 @@ const navigateToSignacle = () => {
   router.push("/signacle");
 };
 
-const logout = () => {
-  toastIsVisible.value = false;
-  userStore.logout();
-
-  if (userStore.apiToken == null) {
-    toastStore.setToast("Você desconectou da conta", "warning");
-    if (toast) {
-      toastIsVisible.value = true;
-      toast.value.show();
-    }
-  }
-};
 </script>
 
 <style scoped>

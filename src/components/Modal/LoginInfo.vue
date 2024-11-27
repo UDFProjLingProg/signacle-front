@@ -45,15 +45,20 @@
 </template>
 
 <script setup>
-import { Modal } from "bootstrap";
+import { Modal, Toast } from "bootstrap";
 
 const userStore = piniaUserStore()
+const toastStore = piniaToastStore()
 const router = useRouter()
 const modal = ref(null);
+const toast = ref(null);
 
 const logout = () => {
   userStore.logout()
+  toastStore.setToast("Você desconectou da conta", "warning");
+  toast.value.show();
   modal.value.hide()
+  router.replace('/')
 } 
 
 const navigateToUsuarios = () => {
@@ -65,6 +70,11 @@ onMounted(() => {
     const modalElement = document.getElementById('modalLoginInfo')
     if (modalElement) {
         modal.value = new Modal(modalElement)
+    }
+
+    const toastElement = document.getElementById('liveToast')
+    if (toastElement) {
+      toast.value = new Toast(toastElement)
     }
 })
 

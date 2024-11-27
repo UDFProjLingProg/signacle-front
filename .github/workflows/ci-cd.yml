@@ -20,8 +20,8 @@ jobs:
 
     - name: Decode SSL Certificates
       run: |
-        echo "${{ secrets.SSL_FULLCHAIN }}" | base64 --decode > fullchain.pem
-        echo "${{ secrets.SSL_PRIVKEY }}" | base64 --decode > privkey.pem
+        echo "${{ secrets.SSL_FULLCHAIN }}" | base64 -d > fullchain.pem
+        echo "${{ secrets.SSL_PRIVKEY }}" | base64 -d > privkey.pem
     
     - name: Build and push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6

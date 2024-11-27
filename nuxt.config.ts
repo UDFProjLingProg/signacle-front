@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   /* https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens */
   runtimeConfig: {
     public: {
-      backend_url: process.env.BACKEND_URL || 'https://152.67.58.50'
+      backend_url: process.env.BACKEND_URL || 'https://signacle.duckdns.org:1246'
     }
   },
 

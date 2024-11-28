@@ -147,7 +147,7 @@ const changeVideoContent = (urlVideo) => {
 };
 
 const navigateBack = () => {
-  router.replace("/signacle");
+  router.replace("/findsign");
 };
 
 const navigatoToManage = () => {

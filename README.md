@@ -1,10 +1,10 @@
-# Signacle - Front-End
+# FindSign - Front-End
 
 ## Descrição
 
-O **Signacle** é um website desenvolvido para servir como um repositório de sinais de Libras, com foco em quatro cursos específicos: **Tecnologia da Informação, Medicina Veterinária, Nutrição e Business**. Ele foi idealizado para facilitar a consulta e o gerenciamento de representações visuais em Libras.
+O **FindSign** é um website desenvolvido para servir como um repositório de sinais de Libras, com foco em quatro cursos específicos: **Tecnologia da Informação, Medicina Veterinária, Nutrição e Business**. Ele foi idealizado para facilitar a consulta e o gerenciamento de representações visuais em Libras.
 
-Este projeto é o **front-end** do Signacle, criado pela turma do **7º e 8º semestre de Ciência da Computação** para a disciplina de **Projeto de Linguagem de Programação**, sob orientação da professora **Kadidja Valéria Reginaldo de Oliveira**. O stakeholder do projeto é o professor **Saulo Xavier**, especialista em Libras.
+Este projeto é o **front-end** do FindSign, criado pela turma do **7º e 8º semestre de Ciência da Computação** para a disciplina de **Projeto de Linguagem de Programação**, sob orientação da professora **Kadidja Valéria Reginaldo de Oliveira**. O stakeholder do projeto é o professor **Saulo Xavier**, especialista em Libras.
 
 O sistema foi desenvolvido utilizando **Nuxt.js** (versão 3.11.2) e **Node.js** (versão 20.15.0).
 
@@ -49,6 +49,55 @@ As seguintes tecnologias foram utilizadas no desenvolvimento deste projeto:
 - **[NPM](https://www.npmjs.com/)**
 - **[ESLint](https://eslint.org/)**
 
+---
+
+# Estrutura de Pastas do Projeto
+
+```plaintext
+src
+├── assets
+├── components
+│   ├── Modal
+│   │   ├── Content.vue
+│   │   ├── EditContent.vue
+│   │   ├── EditTopic.vue
+│   │   ├── Login.vue
+│   │   ├── LoginInfo.vue
+│   │   ├── Topic.vue
+│   ├── ButtonComponent.vue
+│   ├── Footer.vue
+│   ├── IconFontAwesome.vue
+│   ├── Navbar.vue
+│   ├── ToastComponent.vue
+├── composables
+│   ├── CoursesComposable.js
+│   ├── ManageComposable.js
+│   ├── ModalLoginComposable.js
+│   ├── TopicComposable.js
+│   ├── UsersComposable.js
+├── layouts
+│   ├── default.vue
+├── middleware
+│   ├── auth.global.js
+│   ├── register.global.js
+│   ├── users.global.js
+├── pages
+│   ├── topicos
+│   │   ├── [id].vue
+│   │── cadastro_usuario.vue
+│   │── findsign.vue
+│   │── gerenciamento_libras.vue
+│   │── index.vue
+│   │── usuarios.vue
+├── public
+│   ├── favicon.ico
+├── stores
+│   ├── modal_store.js
+│   ├── toast_store.js
+│   ├── user_store.js
+├── app.config.ts
+├── app.vue
+```
 ---
 
 ## 👥 Equipe

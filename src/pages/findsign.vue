@@ -8,9 +8,9 @@
           >
             <h2
               class="ps-4 ms-4 fs-1"
-              style="font-weight: 900; align-self: flex-start; color: #0db9fd"
+              style="font-weight: 900; align-self: flex-start; color: #00AEFF"
             >
-              {{ currentContent?.title || "Signacle" }}
+              {{ currentContent?.title || "FindSign" }}
             </h2>
             <p
               class="ps-4 ms-4 mt-2 fs-6 text-white fw-semibold lh-sm"
@@ -20,9 +20,14 @@
               E se nós pudéssemos ter uma grande nuvem de dados para consultar,
               gratuita e virtualmente, vários sinais da Libras de diversas áreas
               do conhecimento, criados em resposta a demandas de vários
-              contextos?<br /><br />
+              contextos?<br /><br /></p>
 
-              Essa é a proposta do repositório SIGNACLE - Sinais e-Clouds - um
+              <p
+                class="ps-4 ms-4 mt-2 fs-6 text-white"
+                style="text-align: justify"
+                v-if="!chooseContent"
+              >
+              Essa é a proposta do repositório FindSign - Sinais e-Clouds - um
               ambiente on-line voltado ao armazenamento de fontes de conteúdos
               em Libras sobre assuntos presentes nos diversos contextos
               acadêmicos, para auxiliar o usuário no manejo de dicionários

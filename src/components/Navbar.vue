@@ -21,7 +21,7 @@
           <nuxt-link to="/">
             <button
               class="btn btn-link text-white fw-bold"
-              style="text-decoration: none"
+              style="text-decoration: none;"
             >
               Início
             </button>
@@ -29,9 +29,9 @@
           <button
             class="btn btn-link text-white fw-bold"
             style="text-decoration: none"
-            @click="navigateToSignacle"
+            @click="navigateToFindSign"
           >
-            Signacle
+            FindSign
           </button>
           <nuxt-link to="https://udf.edu.br">
             <button
@@ -87,8 +87,8 @@ onMounted(() => {
   }
 });
 
-const navigateToSignacle = () => {
-  router.push("/signacle");
+const navigateToFindSign = () => {
+  router.push("/findsign");
 };
 
 </script>
@@ -124,7 +124,7 @@ const navigateToSignacle = () => {
 }
 
 .btn-link:hover {
-  background-color: #0d6efd;
+  background-color: #00AEFF;
 }
 
 .modal-content {

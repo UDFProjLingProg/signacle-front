@@ -15,33 +15,29 @@
               font-weight: 900;
               font-size: 52px;
               align-self: flex-start;
-              color: #0db9fd;
+              color: #00AEFF;
             "
           >
-            Signacle
+            FindSign
           </h1>
           <br>
-          <p class="fs-5" style="width: 80%">
-            Signacle é um inovador site de busca dedicado à Língua Brasileira de
-            Sinais (Libras). Com o Signacle, é possível realizar a busca de
-            palavras e traduções em qualquer lugar e em qualquer hora, tornando
-            a comunicação mais inclusiva e acessível para pessoas com
-            deficiência auditiva.
+          <p class="fs-5" style="width: 80%; text-align: justify">
+            Olá! Sejam bem-vindos ao sítio web do Projeto FindSing, uma ferramenta de busca de conteúdos acessíveis em Libras, do Centro Universitário de Ensino Superior do Distrito Federal - UDF.
           </p>
           <br />
 
           <button
-            @click="navigatoToSignacle"
-            class="btn btn-primary rounded-pill px-4 py-3 mt-4 fw-bold"
+            @click="navigatoToFindSign"
+            class="btn rounded-pill px-4 py-3 mt-4 fw-bold" style="background-color: #00AEFF"
           >
-            Acessar Signacle
+            Clique aqui e saiba mais
             <i class="bi bi-arrow-down-right-square ms-3"></i>
           </button>
         </div>
 
         <div class="custom-iframe">
           <iframe
-            src="https://www.youtube.com/embed/-ZDkdbPqUZg?si=4aCbBxEOXSYQdyzH"
+            src="https://www.youtube.com/embed/yWNinj-n3R8"
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -57,12 +53,12 @@
 <script setup>
 const router = useRouter();
 
-const navigatoToSignacle = () => {
-  router.push("/signacle");
+const navigatoToFindSign = () => {
+  router.push("/findsign");
 };
 
 useHead({
-  title: "Signacle",
+  title: "FindSign",
 });
 </script>
 

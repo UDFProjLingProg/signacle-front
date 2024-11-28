@@ -232,6 +232,10 @@ onUnmounted(() => {
   modalTopic.value?.dispose();
   modalEditTopic.value?.dispose();
 });
+
+useHead({
+  title: 'Gerenciamento de sinais'
+})
 </script>
 
 <style scoped>

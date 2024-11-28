@@ -93,6 +93,10 @@ const isValidEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+
+useHead({
+  title: 'Usuários'
+})
 </script>
 
 <style scoped>

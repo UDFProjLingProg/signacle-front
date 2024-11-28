@@ -170,4 +170,8 @@ const registerUser = async () => {
     router.replace('/')
   }
 };
+
+useHead({
+  title: 'Cadastro de usuário'
+})
 </script>

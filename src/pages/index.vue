@@ -58,7 +58,7 @@ const navigatoToFindSign = () => {
 };
 
 useHead({
-  title: "FindSign",
+  title: "Home",
 });
 </script>
 

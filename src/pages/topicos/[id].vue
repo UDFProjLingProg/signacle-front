@@ -155,6 +155,10 @@ const navigatoToManage = () => {
 };
 
 const closeSelectedVideo = () => selectedVideo.value = null
+
+useHead({
+  title: 'Repositório'
+})
 </script>
 
 <style>

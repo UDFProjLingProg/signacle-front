@@ -131,7 +131,7 @@ const navigateToTopics = () => {
 };
 
 useHead({
-  title: "courses",
+  title: "FindSign",
 });
 </script>
 
